@@ -20,6 +20,8 @@
 2) Open a folder that has workspace tasks.
 3) Click a task on the status bar, or open **Status Bar Tasks: Open Status Bar Tasks Settings**.
 
+<img src="media/preview.png" alt="Preview" width="100%" />
+
 ---
 
 <p align="center">
