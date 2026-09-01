@@ -4,6 +4,7 @@ src/**
 scripts/**
 node_modules/**
 test-workspace/**
+docs/**
 .github/**
 .scratch/**
 .local/**

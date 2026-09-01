@@ -44,7 +44,7 @@ export type PanelMessage =
   | { type: "resetSettings" }
   | { type: "openUrl"; url: string };
 
-export const SUPPORT_URL = "https://github.com/gvastethecreator/status-bar-tasks";
+export const SUPPORT_URL = "https://github.com/gvastethecreator/vscode-tasks";
 
 export function escapeHtml(value: string): string {
   return value
