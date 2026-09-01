@@ -250,19 +250,24 @@ function renderHtml(scriptNonce: string, state: PanelState): string {
       font-size: 11px;
       line-height: 18px;
     }
-    .task-list { display: grid; gap: 4px; }
+    .task-list { display: grid; gap: 0; }
     .task {
       display: flex;
       flex-wrap: wrap;
-      gap: 6px;
+      gap: 6px 8px;
       align-items: center;
-      padding: 5px 6px;
-      border: 1px solid var(--vscode-widget-border, var(--vscode-editorWidget-border));
-      border-radius: 4px;
+      padding: 6px 0;
+      border-bottom: 1px solid var(--vscode-widget-border, rgba(128, 128, 128, 0.2));
     }
-    .task .show { min-height: 0; }
-    .task [data-field="label"] { flex: 1.4 1 8rem; min-width: 7rem; }
-    .task [data-field="color"] { width: 5.5rem; flex: none; }
+    .task:last-child {
+      border-bottom: none;
+      padding-bottom: 0;
+    }
+    .task .show { min-height: 0; flex: none; }
+    .task .emoji-pick { flex: none; }
+    .task [data-field="label"] { flex: 1 1 8rem; min-width: 6rem; }
+    .task [data-field="picker"] { flex: none; }
+    .task [data-field="color"] { width: 5.5rem; flex: 0 0 5.5rem; }
     .icon-btn {
       width: 26px;
       height: 26px;
@@ -324,7 +329,6 @@ function renderHtml(scriptNonce: string, state: PanelState): string {
     <section>
       <h2>Bar</h2>
       <div class="bar-card">
-        <div class="preview-bar" id="preview" aria-hidden="true"></div>
         <div class="toggles">
           <label class="option">
             <input id="defaultHide" type="checkbox" ${state.defaultHide ? "checked" : ""} />
@@ -376,6 +380,10 @@ function renderHtml(scriptNonce: string, state: PanelState): string {
     <section>
       <h2>Tasks</h2>
       <div id="taskList" class="task-list">${taskCards || `<p class="muted">No workspace tasks found.</p>`}</div>
+    </section>
+    <section>
+      <h2>Preview</h2>
+      <div class="preview-bar" id="preview" aria-hidden="true"></div>
     </section>
     <div class="footer">
       <button type="button" class="cmd secondary" id="resetSettings" ${state.hasWorkspace ? "" : "disabled"}>Reset settings</button>
