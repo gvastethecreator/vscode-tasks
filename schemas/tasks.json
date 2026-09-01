@@ -1,0 +1,163 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "definitions": {
+    "label": {
+      "type": "string",
+      "default": "label for statusbar",
+      "description": "Status bar label. You can embed icons with $(icon-name). See https://code.visualstudio.com/api/references/icons-in-labels"
+    },
+    "icon": {
+      "type": "object",
+      "default": {
+        "id": "play"
+      },
+      "description": "Optional Codicon for the status bar item.",
+      "properties": {
+        "id": {
+          "description": "Codicon id",
+          "type": ["string", "null"]
+        }
+      }
+    },
+    "color": {
+      "type": "string",
+      "default": "#FFF",
+      "format": "color",
+      "description": "Status bar foreground. Hex color or theme color id. See https://code.visualstudio.com/api/references/theme-color"
+    },
+    "backgroundColor": {
+      "type": "string",
+      "enum": [
+        "statusBarItem.errorBackground",
+        "statusBarItem.warningBackground"
+      ],
+      "markdownDescription": "Status bar background. VS Code only allows:\n* `statusBarItem.errorBackground`\n* `statusBarItem.warningBackground`"
+    },
+    "statusbar": {
+      "type": "object",
+      "description": "Status bar button for this task.",
+      "properties": {
+        "running": {
+          "type": "object",
+          "properties": {
+            "label": {
+              "$ref": "#/definitions/label"
+            },
+            "icon": {
+              "$ref": "#/definitions/icon"
+            },
+            "color": {
+              "$ref": "#/definitions/color"
+            },
+            "backgroundColor": {
+              "$ref": "#/definitions/backgroundColor"
+            }
+          }
+        },
+        "label": {
+          "$ref": "#/definitions/label"
+        },
+        "icon": {
+          "$ref": "#/definitions/icon"
+        },
+        "color": {
+          "$ref": "#/definitions/color"
+        },
+        "backgroundColor": {
+          "$ref": "#/definitions/backgroundColor"
+        },
+        "detail": {
+          "type": "string",
+          "default": "tooltip for statusbar",
+          "description": "Tooltip for the status bar item."
+        },
+        "hide": {
+          "type": "boolean",
+          "default": false,
+          "description": "If true, do not show this task on the status bar. Set false to show a task when tasks.statusbar.default.hide is true."
+        },
+        "filePattern": {
+          "type": "string",
+          "default": "",
+          "description": "Show this button only when the active editor path matches this regular expression. Empty shows it for every file."
+        }
+      }
+    },
+    "options": {
+      "type": "object",
+      "properties": {
+        "statusbar": {
+          "$ref": "#/definitions/statusbar"
+        }
+      }
+    },
+    "tasks": {
+      "type": "object",
+      "properties": {
+        "windows": {
+          "type": "object",
+          "properties": {
+            "options": {
+              "$ref": "#/definitions/options"
+            }
+          }
+        },
+        "linux": {
+          "type": "object",
+          "properties": {
+            "options": {
+              "$ref": "#/definitions/options"
+            }
+          }
+        },
+        "osx": {
+          "type": "object",
+          "properties": {
+            "options": {
+              "$ref": "#/definitions/options"
+            }
+          }
+        },
+        "options": {
+          "$ref": "#/definitions/options"
+        },
+        "tasks": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "windows": {
+                "type": "object",
+                "properties": {
+                  "options": {
+                    "$ref": "#/definitions/options"
+                  }
+                }
+              },
+              "linux": {
+                "type": "object",
+                "properties": {
+                  "options": {
+                    "$ref": "#/definitions/options"
+                  }
+                }
+              },
+              "osx": {
+                "type": "object",
+                "properties": {
+                  "options": {
+                    "$ref": "#/definitions/options"
+                  }
+                }
+              },
+              "options": {
+                "$ref": "#/definitions/options"
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "$ref": "#/definitions/tasks"
+}
