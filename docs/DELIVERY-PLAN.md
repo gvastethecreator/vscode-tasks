@@ -1,12 +1,27 @@
 # Status Bar Tasks — Complete delivery plan
 
-Status: technical audit, stabilization specification, and ordered ticket backlog  
-Repository: `gvastethecreator/vscode-tasks`  
-Product phase: functional alpha  
-Target release: `0.1.0`  
-Last reviewed: 2026-09-01
+- Status: `0.1.0` release candidate verified locally; publication pending operator approval
+- Repository: `gvastethecreator/vscode-tasks`
+- Product phase: release candidate
+- Target release: `0.1.0`
+- Last reviewed: 2026-09-02
 
 Unlike the other new portfolio repositories, Status Bar Tasks already has substantial implementation. This plan focuses on correctness, UX alignment, integration testing, security, attribution, and packaged-release confidence rather than scaffolding a product from zero.
+
+---
+
+## Delivery result — 2026-09-02
+
+The `0.1.0` implementation is complete locally for the declared workspace-task scope.
+
+- SBT-001 through SBT-029 are implemented in the working tree.
+- SBT-030 is green on the local Windows release path: 60 unit tests, type checking, production bundling, the 0/10/100/1,000-task performance probe, Extension Host integration, VSIX creation and inspection, clean-profile VSIX installation, packaged activation, task execution, running-task focus, schema diagnostics, and dependency audit.
+- The CI workflow contains the minimum/current/Insiders and Windows/macOS/Linux matrix. Its hosted result remains pending until the implementation is pushed.
+- SBT-031 remains an explicit operator action. No registry publication, tag, release, commit, or push has been performed.
+- The settings webview keeps the exact compact pre-PR composition. Advanced Codicon, tooltip, running-overlay, and file-glob capabilities remain available through task-source metadata without adding controls to the panel.
+- The final Marketplace preview is a real 1200×800 VS Code Extension Development Host capture of that compact panel. The 256×256 Marketplace icon uses a transparent, sober, flat canvas.
+
+The audit below is retained as the historical baseline that this implementation resolves.
 
 ---
 
