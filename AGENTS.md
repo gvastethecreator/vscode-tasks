@@ -1,6 +1,6 @@
 # Status Bar Tasks
 
-VS Code extension `gvastethecreator.status-bar-tasks`. pnpm. TypeScript in `src/`. esbuild writes `dist/extension.js`.
+VS Code extension `gvastethecreator.status-bar-tasks`. pnpm. TypeScript in `src/`. esbuild writes `dist/extension.cjs`.
 
 ## Commands
 
@@ -45,17 +45,23 @@ Single-context: root `CONTEXT.md` plus `docs/adr/`. See `docs/agents/domain.md`.
 - `src/extension.ts` — activate, commands, reload
 - `src/load.ts` — inspect `tasks` config, fetch, build items
 - `src/match.ts` — config to `vscode.Task`
+- `src/taskIdentity.ts` — stable source-task identity
+- `src/refreshCoordinator.ts` — serialized, generation-safe refreshes
 - `src/merge.ts` — platform overlay
 - `src/attributes.ts` — status bar options, hide, color, running marker
-- `src/runningControls.ts` — green bullet vs spinner
-- `src/statusBar.ts` — items, overflow Quick Pick
+- `src/fileGlob.ts` — bounded active-file filters
+- `src/codicons.ts` — approved task icon ids
+- `src/statusBar.ts` — one task menu and bounded pinned slots
 - `src/overflowButton.ts` — compact menu button text
 - `src/taskActions.ts` — run or focus the task terminal
 - `src/taskTerminal.ts` — match a task to its terminal name
-- `src/emoji.ts` — leading emoji in the status bar label
+- `src/emoji.ts` / `src/runningControls.ts` — compact emoji labels and optional running indicators
 - `src/panel.ts` / `src/panelState.ts` — settings webview
+- `media/panel.css` / `media/panel.js` — compact panel presentation and DOM behavior
 - `src/persist.ts` / `src/persistJson.ts` — settings and `tasks.json` writes
 - `src/*.test.ts` — Node test runner
+- `test/integration/` — Extension Host and packaged-VSIX checks
+- `scripts/` — performance and VSIX inspection gates
 - `schemas/` — JSON validation for `tasks.json` and `*.code-workspace`
 - `test-workspace/` — Extension Host folder
 - `docs/agents/` — issue tracker, triage labels, domain docs

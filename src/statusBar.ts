@@ -1,5 +1,6 @@
 import * as vscode from "vscode";
 import {
+  formatStatusBarText,
   parseColor,
   resolveAttrs,
   runKindOf,
@@ -9,82 +10,89 @@ import {
 import { busyKind, overflowButtonText } from "./overflowButton.ts";
 import type { BuiltItem } from "./load.ts";
 import { readSettings } from "./load.ts";
-import { findMatchingTask } from "./match.ts";
+import { sameTask } from "./match.ts";
 import { runningItemText, showRunningIndicator } from "./runningControls.ts";
-import type { ColorValue, ResolvedAttrs, RunKind, TaskConfig } from "./types.ts";
+import type {
+  ColorValue,
+  ResolvedAttrs,
+  RunKind,
+  RunningControlSettings,
+  StatusBarSettings,
+} from "./types.ts";
 
 export const RunTaskCommand = "statusBarTasks.run";
 export const SelectTaskCommand = "statusBarTasks.select";
 export const OpenPanelCommand = "statusBarTasks.openPanel";
 
 const TASK_PRIORITY = 50;
-const OVERFLOW_PRIORITY = 49;
-const COMPACT_INDICATOR_PRIORITY = 49.5;
+const MENU_PRIORITY = 49;
 
 type Slot = {
   item: vscode.StatusBarItem;
-  label: string;
-  filePattern?: string;
-  task?: vscode.Task;
-  config?: TaskConfig;
+  built?: BuiltItem;
 };
 
 const slots: Slot[] = [];
-const overflowTasks: {
-  label: string;
-  description?: string;
-  task: vscode.Task;
-}[] = [];
-let overflow: vscode.StatusBarItem | undefined;
-let compactIndicator: vscode.StatusBarItem | undefined;
+let allItems: BuiltItem[] = [];
+let workspaceActive = false;
+let menu: vscode.StatusBarItem | undefined;
 let editorListener: vscode.Disposable | undefined;
 
-function applyColor(
-  item: vscode.StatusBarItem,
-  color: ColorValue | undefined,
-): void {
-  if (!color) {
-    item.color = undefined;
-    return;
-  }
-  item.color =
-    color.type === "hex" ? color.value : new vscode.ThemeColor(color.value);
+function applyColor(item: vscode.StatusBarItem, color: ColorValue | undefined): void {
+  item.color = color
+    ? color.type === "hex"
+      ? color.value
+      : new vscode.ThemeColor(color.value)
+    : undefined;
 }
 
 function applyBackground(
   item: vscode.StatusBarItem,
   backgroundColor: string | undefined,
 ): void {
-  if (
+  item.backgroundColor =
     backgroundColor === "statusBarItem.errorBackground" ||
     backgroundColor === "statusBarItem.warningBackground"
-  ) {
-    item.backgroundColor = new vscode.ThemeColor(backgroundColor);
-    return;
-  }
-  item.backgroundColor = undefined;
+      ? new vscode.ThemeColor(backgroundColor)
+      : undefined;
 }
 
 function applyTooltip(
   item: vscode.StatusBarItem,
-  detail: string | undefined,
+  attrs: ResolvedAttrs,
+  sourceLabel: string,
 ): void {
-  if (!detail) {
-    item.tooltip = undefined;
-    return;
-  }
-  const md = new vscode.MarkdownString(detail);
-  md.supportThemeIcons = true;
-  item.tooltip = md;
+  const detail = attrs.detail?.trim() || sourceLabel;
+  const text = attrs.runKind
+    ? runningStatusLabel(attrs.runKind) + ": " + detail
+    : detail;
+  item.tooltip = text;
 }
 
-function applyAttrs(slot: Slot, attrs: ResolvedAttrs): void {
-  slot.label = attrs.label;
-  slot.item.text = attrs.label;
-  slot.item.name = "Status Bar Tasks";
-  applyColor(slot.item, attrs.color);
-  applyBackground(slot.item, attrs.backgroundColor);
-  applyTooltip(slot.item, attrs.detail);
+function applyBuilt(
+  slot: Slot,
+  built: BuiltItem,
+  runningSettings: RunningControlSettings,
+): void {
+  slot.built = built;
+  slot.item.text = runningItemText(
+    formatStatusBarText(built.attrs),
+    showRunningIndicator(runningSettings, built.attrs.runKind !== undefined),
+  );
+  slot.item.name = "Status Bar Tasks: " + built.task.name;
+  slot.item.accessibilityInformation = {
+    label: built.attrs.runKind
+      ? runningStatusLabel(built.attrs.runKind) + " task " + built.task.name
+      : "Run task " + built.task.name,
+  };
+  slot.item.command = {
+    command: RunTaskCommand,
+    title: "Run " + built.task.name,
+    arguments: [built.task],
+  };
+  applyColor(slot.item, built.attrs.color);
+  applyBackground(slot.item, built.attrs.backgroundColor);
+  applyTooltip(slot.item, built.attrs, built.sourceLabel);
 }
 
 function disposeSlot(slot: Slot): void {
@@ -96,11 +104,11 @@ function ensureSlots(count: number): void {
   while (slots.length < count) {
     const index = slots.length;
     const item = vscode.window.createStatusBarItem(
-      `statusBarTasks.${index}`,
+      "statusBarTasks.pinned." + index,
       vscode.StatusBarAlignment.Left,
       TASK_PRIORITY,
     );
-    slots.push({ item, label: "" });
+    slots.push({ item });
   }
   while (slots.length > count) {
     const slot = slots.pop();
@@ -110,37 +118,38 @@ function ensureSlots(count: number): void {
   }
 }
 
-function ensureOverflow(): vscode.StatusBarItem {
-  if (!overflow) {
-    overflow = vscode.window.createStatusBarItem(
-      "statusBarTasks.overflow",
+function ensureMenu(): vscode.StatusBarItem {
+  if (!menu) {
+    menu = vscode.window.createStatusBarItem(
+      "statusBarTasks.menu",
       vscode.StatusBarAlignment.Left,
-      OVERFLOW_PRIORITY,
+      MENU_PRIORITY,
     );
-    overflow.name = "Status Bar Tasks";
-    overflow.command = SelectTaskCommand;
-    overflow.tooltip = "Run a task or open settings";
+    menu.name = "Status Bar Tasks";
+    menu.command = SelectTaskCommand;
+    menu.tooltip = "Run a workspace task or open settings";
+    menu.accessibilityInformation = { label: "Open Status Bar Tasks menu" };
   }
-  return overflow;
+  return menu;
 }
 
-function ensureCompactIndicator(): vscode.StatusBarItem {
-  if (!compactIndicator) {
-    compactIndicator = vscode.window.createStatusBarItem(
-      "statusBarTasks.compactIndicator",
-      vscode.StatusBarAlignment.Left,
-      COMPACT_INDICATOR_PRIORITY,
-    );
-    compactIndicator.name = "Status Bar Tasks";
-    compactIndicator.text = "🟢";
-    compactIndicator.command = SelectTaskCommand;
-    compactIndicator.tooltip = "A task is running";
+function activeRelativePath(item: BuiltItem): string | undefined {
+  const uri = vscode.window.activeTextEditor?.document.uri;
+  if (!uri) {
+    return;
   }
-  return compactIndicator;
+  const folder = vscode.workspace.getWorkspaceFolder(uri);
+  if (
+    item.identity.workspaceFolderUri &&
+    folder?.uri.toString() !== item.identity.workspaceFolderUri
+  ) {
+    return;
+  }
+  return vscode.workspace.asRelativePath(uri, false).replaceAll("\\", "/");
 }
 
-function currentFilePath(): string | undefined {
-  return vscode.window.activeTextEditor?.document.fileName;
+function appliesToActiveFile(item: BuiltItem): boolean {
+  return shouldShowForFile(item.attrs.fileGlob, activeRelativePath(item));
 }
 
 function executionTasks(): vscode.Task[] {
@@ -148,89 +157,74 @@ function executionTasks(): vscode.Task[] {
 }
 
 function isRunningNow(task: vscode.Task): boolean {
-  return Boolean(findMatchingTask(executionTasks(), task));
+  return executionTasks().some((candidate) => sameTask(candidate, task));
 }
 
-function slotRunKind(slot: Slot): RunKind {
-  return runKindOf(slot.config ?? {}, slot.task);
+function itemRunKind(item: BuiltItem): RunKind {
+  return runKindOf(item.config, item.task);
 }
 
-function slotBusy() {
+function currentBusyKind() {
   const kinds: RunKind[] = [];
-  for (const slot of slots) {
-    if (slot.task && isRunningNow(slot.task)) {
-      kinds.push(slotRunKind(slot));
+  for (const item of allItems) {
+    if (isRunningNow(item.task)) {
+      kinds.push(itemRunKind(item));
     }
   }
   return busyKind(kinds);
 }
 
-function applyRunningLabel(slot: Slot): void {
-  if (!slot.task) {
-    slot.item.text = slot.label;
-    return;
+function visiblePinnedItems(settings: StatusBarSettings): BuiltItem[] {
+  if (settings.compact || settings.limit === 0) {
+    return [];
   }
-  slot.item.text = runningItemText(
-    slot.label,
-    showRunningIndicator(readSettings().running, isRunningNow(slot.task)),
-  );
+  return allItems
+    .filter((item) => !item.attrs.hide && appliesToActiveFile(item))
+    .slice(0, settings.limit);
 }
 
 export function updateVisibility(): void {
-  const filePath = currentFilePath();
   const settings = readSettings();
-  overflowTasks.length = 0;
-  let shown = 0;
-  const limit = settings.compact ? 0 : settings.limit;
-  for (const slot of slots) {
-    slot.item.hide();
-    if (!slot.task || !shouldShowForFile(slot.filePattern, filePath)) {
-      continue;
+  if (allItems.length === 0) {
+    for (const slot of slots) {
+      slot.item.hide();
     }
-    if (typeof limit === "number" && limit <= shown) {
-      overflowTasks.push({
-        label: slot.item.text,
-        description:
-          typeof slot.item.tooltip === "string"
-            ? slot.item.tooltip
-            : slot.item.tooltip?.value,
-        task: slot.task,
+    if (workspaceActive) {
+      const menuItem = ensureMenu();
+      menuItem.text = overflowButtonText({
+        compact: settings.compact,
+        icon: settings.select.icon,
+        label: settings.select.label,
       });
-      continue;
+      applyColor(menuItem, parseColor(settings.select.color));
+      menuItem.show();
+    } else {
+      menu?.hide();
     }
-    slot.item.show();
-    applyRunningLabel(slot);
-    shown += 1;
+    return;
   }
 
-  if (slots.length > 0) {
-    const item = ensureOverflow();
-    item.text = overflowButtonText({
-      compact: settings.compact,
-      icon: settings.select.icon,
-      label: settings.select.label,
-      busy: slotBusy(),
-    });
-    applyColor(item, parseColor(settings.select.color));
-    item.show();
-  } else {
-    overflow?.hide();
+  const pinned = visiblePinnedItems(settings);
+  ensureSlots(pinned.length);
+  for (let index = 0; index < pinned.length; index += 1) {
+    applyBuilt(slots[index], pinned[index], settings.running);
+    slots[index].item.show();
   }
 
-  const anyRunning = slots.some((slot) => slot.task && isRunningNow(slot.task));
-  if (
-    settings.compact &&
-    slots.length > 0 &&
-    showRunningIndicator(settings.running, anyRunning)
-  ) {
-    const item = ensureCompactIndicator();
-    const busy = slotBusy();
-    item.tooltip =
-      busy === "background" ? "A task is online" : "A task is running";
-    item.show();
-  } else {
-    compactIndicator?.hide();
-  }
+  const busy = currentBusyKind();
+  const menuItem = ensureMenu();
+  const menuText = overflowButtonText({
+    compact: settings.compact,
+    icon: settings.select.icon,
+    label: settings.select.label,
+    busy,
+  });
+  menuItem.text = runningItemText(
+    menuText,
+    settings.compact && showRunningIndicator(settings.running, busy !== undefined),
+  );
+  applyColor(menuItem, parseColor(settings.select.color));
+  menuItem.show();
 }
 
 function listenToEditor(): void {
@@ -239,25 +233,9 @@ function listenToEditor(): void {
   }
 }
 
-export function syncStatusBar(items: BuiltItem[]): void {
-  if (items.length === 0) {
-    disposeStatusBar();
-    return;
-  }
-  ensureSlots(items.length);
-  for (let i = 0; i < items.length; i++) {
-    const built = items[i];
-    const slot = slots[i];
-    slot.task = built.task;
-    slot.config = built.config;
-    slot.filePattern = built.attrs.filePattern;
-    applyAttrs(slot, built.attrs);
-    slot.item.command = {
-      command: RunTaskCommand,
-      title: built.attrs.label,
-      arguments: [built.task],
-    };
-  }
+export function syncStatusBar(items: BuiltItem[], hasWorkspace = true): void {
+  allItems = items;
+  workspaceActive = hasWorkspace;
   listenToEditor();
   updateVisibility();
 }
@@ -267,29 +245,21 @@ export function applyRunningState(
   items: BuiltItem[],
   running: boolean,
 ): void {
-  const matchedTask = findMatchingTask(
-    items.map((item) => item.task),
-    task,
-  );
-  const item = items.find((entry) => entry.task === matchedTask);
-  const slot = slots.find(
-    (candidate) => candidate.task && candidate.task === matchedTask,
-  );
-  if (item && slot) {
+  const settings = readSettings();
+  for (const item of items) {
+    if (!sameTask(item.task, task)) {
+      continue;
+    }
     item.attrs = resolveAttrs(
       item.config,
       item.task,
-      readSettings().defaults,
+      settings.defaults,
       running,
-      readSettings().running.highlight,
+      settings.running.highlight,
     );
-    applyAttrs(slot, item.attrs);
   }
+  allItems = items;
   updateVisibility();
-}
-
-export function taskAtIndex(index: number): vscode.Task | undefined {
-  return slots[index]?.task;
 }
 
 export type OverflowPick = vscode.QuickPickItem & {
@@ -301,38 +271,29 @@ export type OverflowResult =
   | { type: "run"; task: vscode.Task }
   | { type: "settings" };
 
-function slotTooltip(slot: Slot): string | undefined {
-  if (typeof slot.item.tooltip === "string") {
-    return slot.item.tooltip;
-  }
-  return slot.item.tooltip?.value;
-}
-
 export function overflowPicks(): OverflowPick[] {
-  const filePath = currentFilePath();
-  const runningSettings = readSettings().running;
+  const settings = readSettings();
   const picks: OverflowPick[] = [];
-  for (const slot of slots) {
-    if (!slot.task || !shouldShowForFile(slot.filePattern, filePath)) {
+  for (const item of allItems) {
+    if (!appliesToActiveFile(item)) {
       continue;
     }
-    const running = isRunningNow(slot.task);
+    const running = isRunningNow(item.task);
+    const status = running ? runningStatusLabel(itemRunKind(item)) : undefined;
     picks.push({
       label: runningItemText(
-        slot.label,
-        showRunningIndicator(runningSettings, running),
+        formatStatusBarText(item.attrs),
+        showRunningIndicator(settings.running, running),
       ),
-      description: running
-        ? runningStatusLabel(slotRunKind(slot))
-        : slotTooltip(slot),
-      task: slot.task,
+      description: status
+        ? status + " · " + item.sourceLabel
+        : item.sourceLabel,
+      detail: item.attrs.detail,
+      task: item.task,
     });
   }
   if (picks.length > 0) {
-    picks.push({
-      label: "",
-      kind: vscode.QuickPickItemKind.Separator,
-    });
+    picks.push({ label: "", kind: vscode.QuickPickItemKind.Separator });
   }
   picks.push({
     label: "$(gear) Open Status Bar Tasks Settings",
@@ -343,40 +304,33 @@ export function overflowPicks(): OverflowPick[] {
 
 export function showTaskMenu(): Promise<OverflowResult | undefined> {
   return new Promise((resolve) => {
-    const qp = vscode.window.createQuickPick<OverflowPick>();
-    qp.placeholder = "Run a task or open settings";
-    qp.items = overflowPicks();
-    qp.matchOnDescription = true;
+    const quickPick = vscode.window.createQuickPick<OverflowPick>();
+    quickPick.placeholder = "Run a workspace task or open settings";
+    quickPick.items = overflowPicks();
+    quickPick.matchOnDescription = true;
+    quickPick.matchOnDetail = true;
     let settled = false;
-    const finish = (value: OverflowResult | undefined) => {
+    const finish = (value: OverflowResult | undefined): void => {
       if (settled) {
         return;
       }
       settled = true;
-      qp.hide();
-      qp.dispose();
+      quickPick.hide();
+      quickPick.dispose();
       resolve(value);
     };
-    qp.onDidAccept(() => {
-      const pick = qp.selectedItems[0];
-      if (!pick) {
-        finish(undefined);
-        return;
-      }
-      if (pick.openSettings) {
+    quickPick.onDidAccept(() => {
+      const pick = quickPick.selectedItems[0];
+      if (pick?.openSettings) {
         finish({ type: "settings" });
-        return;
-      }
-      if (pick.task) {
+      } else if (pick?.task) {
         finish({ type: "run", task: pick.task });
-        return;
+      } else {
+        finish(undefined);
       }
-      finish(undefined);
     });
-    qp.onDidHide(() => {
-      finish(undefined);
-    });
-    qp.show();
+    quickPick.onDidHide(() => finish(undefined));
+    quickPick.show();
   });
 }
 
@@ -385,13 +339,11 @@ export function disposeStatusBar(): void {
     disposeSlot(slot);
   }
   slots.length = 0;
-  overflow?.hide();
-  overflow?.dispose();
-  overflow = undefined;
-  compactIndicator?.hide();
-  compactIndicator?.dispose();
-  compactIndicator = undefined;
-  overflowTasks.length = 0;
+  allItems = [];
+  workspaceActive = false;
+  menu?.hide();
+  menu?.dispose();
+  menu = undefined;
   editorListener?.dispose();
   editorListener = undefined;
 }

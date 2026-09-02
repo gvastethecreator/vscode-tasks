@@ -1,0 +1,33 @@
+{
+  "folders": [
+    {
+      "name": "fixture",
+      "path": "."
+    },
+    {
+      "name": "nested",
+      "path": "nested"
+    }
+  ],
+  "tasks": {
+    "version": "2.0.0",
+    "tasks": [
+      {
+        "label": "workspace-echo",
+        "type": "shell",
+        "command": "echo",
+        "args": ["workspace"],
+        "problemMatcher": [],
+        "options": {
+          "statusbar": {
+            "hide": false,
+            "icon": {
+              "id": "run-all"
+            }
+          }
+        }
+      }
+    ],
+    "statusbar.compact": false
+  }
+}

@@ -13,9 +13,9 @@ const esbuildProblemMatcherPlugin = {
     });
     build.onEnd((result) => {
       for (const { text, location } of result.errors) {
-        console.error(`✘ [ERROR] ${text}`);
+        console.error("✘ [ERROR] " + text);
         if (location) {
-          console.error(`  ${location.file}:${location.line}:${location.column}:`);
+          console.error("  " + location.file + ":" + location.line + ":" + location.column + ":");
         }
       }
       console.log("[watch] build finished");
@@ -32,7 +32,7 @@ async function main() {
     sourcemap: !production,
     sourcesContent: false,
     platform: "node",
-    outfile: "dist/extension.js",
+    outfile: "dist/extension.cjs",
     external: ["vscode"],
     alias: {
       "jsonc-parser": path.join(

@@ -1,6 +1,12 @@
 import * as vscode from "vscode";
-import { parseTaskOriginKey } from "./panelState.ts";
-import { applyStatusbarFields, taskObjectOffset } from "./persistJson.ts";
+import { parseTaskIdentityKey } from "./taskIdentity.ts";
+import {
+  applyStatusbarFields,
+  isValidTaskSource,
+  minimalReplacement,
+  resolveTaskIndex,
+  taskObjectOffset,
+} from "./persistJson.ts";
 
 const SETTING_KEYS = [
   "default.hide",
@@ -15,15 +21,16 @@ const SETTING_KEYS = [
 ] as const;
 
 function settingsTarget(): vscode.ConfigurationTarget {
-  return vscode.workspace.workspaceFolders?.length
-    ? vscode.ConfigurationTarget.Workspace
-    : vscode.ConfigurationTarget.Global;
+  return vscode.ConfigurationTarget.Workspace;
 }
 
 export async function updateStatusbarSetting(
   key: (typeof SETTING_KEYS)[number],
   value: unknown,
 ): Promise<void> {
+  if (!vscode.workspace.workspaceFile && !vscode.workspace.workspaceFolders?.length) {
+    throw new Error("Open a workspace before changing Status Bar Tasks settings.");
+  }
   await vscode.workspace
     .getConfiguration("tasks.statusbar")
     .update(key, value, settingsTarget());
@@ -37,71 +44,69 @@ export async function resetStatusbarSettings(): Promise<void> {
   }
 }
 
-async function readText(uri: vscode.Uri): Promise<string> {
-  const open = vscode.workspace.textDocuments.find(
-    (doc) => doc.uri.toString() === uri.toString(),
-  );
-  if (open) {
-    return open.getText();
+function parseIdentity(key: string) {
+  const identity = parseTaskIdentityKey(key);
+  if (!identity) {
+    throw new Error("Could not find that task.");
   }
-  return Buffer.from(await vscode.workspace.fs.readFile(uri)).toString("utf8");
+  return identity;
 }
 
-async function writeText(uri: vscode.Uri, text: string): Promise<void> {
-  const open = vscode.workspace.textDocuments.find(
-    (doc) => doc.uri.toString() === uri.toString(),
-  );
-  if (open) {
-    const edit = new vscode.WorkspaceEdit();
-    const range = new vscode.Range(
-      open.positionAt(0),
-      open.positionAt(open.getText().length),
-    );
-    edit.replace(uri, range, text);
-    const applied = await vscode.workspace.applyEdit(edit);
-    if (!applied) {
-      throw new Error("Could not update tasks.json.");
-    }
-    return;
+async function sourceDocument(key: string): Promise<{
+  document: vscode.TextDocument;
+  index: number;
+}> {
+  const identity = parseIdentity(key);
+  const uri = vscode.Uri.parse(identity.sourceUri, true);
+  const document = await vscode.workspace.openTextDocument(uri);
+  const resolution = resolveTaskIndex(document.getText(), uri.path, identity);
+  if ("error" in resolution) {
+    throw new Error(resolution.error);
   }
-  await vscode.workspace.fs.writeFile(uri, Buffer.from(text, "utf8"));
+  return { document, index: resolution.index };
 }
 
 export async function updateTaskStatusbar(
   key: string,
   fields: Record<string, string | boolean | undefined>,
 ): Promise<void> {
-  const parsed = parseTaskOriginKey(key);
-  if (!parsed) {
-    throw new Error("Could not find that task.");
+  const { document, index } = await sourceDocument(key);
+  const version = document.version;
+  const before = document.getText();
+  const after = applyStatusbarFields(before, document.uri.path, index, fields);
+  if (!isValidTaskSource(after, document.uri.path)) {
+    throw new Error("The task edit would produce invalid JSON. No change was applied.");
   }
-  if (parsed.uri === "user" || !parsed.uri.includes(":")) {
-    throw new Error("User tasks cannot be edited here.");
-  }
-  const uri = vscode.Uri.parse(parsed.uri);
-  const text = await readText(uri);
-  const next = applyStatusbarFields(text, uri.fsPath, parsed.index, fields);
-  if (next === text) {
+  const replacement = minimalReplacement(before, after);
+  if (!replacement) {
     return;
   }
-  await writeText(uri, next);
+  if (document.version !== version || document.getText() !== before) {
+    throw new Error("The task source changed while editing. Refresh and try again.");
+  }
+  const edit = new vscode.WorkspaceEdit();
+  edit.replace(
+    document.uri,
+    new vscode.Range(
+      document.positionAt(replacement.start),
+      document.positionAt(replacement.end),
+    ),
+    replacement.text,
+  );
+  if (!(await vscode.workspace.applyEdit(edit))) {
+    throw new Error("Could not update the task source.");
+  }
+  if (document.getText() !== after) {
+    throw new Error("The task source changed during the edit. Review the open document.");
+  }
 }
 
 export async function openTaskSource(key: string): Promise<void> {
-  const parsed = parseTaskOriginKey(key);
-  if (!parsed) {
-    throw new Error("Could not find that task.");
-  }
-  if (parsed.uri === "user" || !parsed.uri.includes(":")) {
-    throw new Error("User tasks cannot be edited here.");
-  }
-  const uri = vscode.Uri.parse(parsed.uri);
-  const doc = await vscode.workspace.openTextDocument(uri);
-  const offset = taskObjectOffset(doc.getText(), uri.fsPath, parsed.index);
-  const pos =
-    offset == null ? new vscode.Position(0, 0) : doc.positionAt(offset);
-  await vscode.window.showTextDocument(doc, {
+  const { document, index } = await sourceDocument(key);
+  const offset = taskObjectOffset(document.getText(), document.uri.path, index);
+  const position = offset == null ? new vscode.Position(0, 0) : document.positionAt(offset);
+  await vscode.window.showTextDocument(document, {
     preview: false,
-    selection: new vscode.Range(pos, pos),
+    selection: new vscode.Range(position, position),
   });
 }

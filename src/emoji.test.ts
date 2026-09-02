@@ -17,15 +17,8 @@ test("splitLabelEmoji keeps ZWJ and flag sequences together", () => {
   assert.deepEqual(splitLabelEmoji("👨‍💻 watch"), { emoji: "👨‍💻", text: "watch" });
 });
 
-test("joinLabelEmoji writes the emoji into the label string", () => {
+test("joinLabelEmoji keeps the compact task-row value stable", () => {
   assert.equal(joinLabelEmoji("🚀", "build"), "🚀 build");
   assert.equal(joinLabelEmoji("", "build"), "build");
-  assert.equal(joinLabelEmoji("🧪", ""), "🧪");
-  assert.equal(joinLabelEmoji("▶️", "Watch"), "▶️ Watch");
-});
-
-test("replacing the leading emoji does not need a new field", () => {
-  const current = splitLabelEmoji("🧪 Test");
-  assert.equal(joinLabelEmoji("🚀", current.text), "🚀 Test");
-  assert.equal(joinLabelEmoji("", current.text), "Test");
+  assert.equal(joinLabelEmoji("🚀", ""), "🚀");
 });

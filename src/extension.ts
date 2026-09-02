@@ -1,17 +1,34 @@
 import * as vscode from "vscode";
+import {
+  buildSnapshot,
+  isTaskRunning,
+  panelState,
+  rememberSnapshot,
+  runningTasks,
+  type BuiltItem,
+  type LoadSnapshot,
+} from "./load.ts";
 import { joinLabelEmoji, splitLabelEmoji } from "./emoji.ts";
-import { buildItems, isTaskRunning, listPanelTasks, panelState, runningTasks } from "./load.ts";
 import { disposeLog, log } from "./log.ts";
 import { openSettingsPanel, postPanelState } from "./panel.ts";
-import type { PanelMessage } from "./panelState.ts";
-import { SUPPORT_URL } from "./panelState.ts";
+import {
+  isPanelMessageForKnownTask,
+  parsePanelMessage,
+  SUPPORT_URL,
+  type PanelMessage,
+} from "./panelState.ts";
 import {
   openTaskSource,
   resetStatusbarSettings,
   updateStatusbarSetting,
   updateTaskStatusbar,
 } from "./persist.ts";
-import { runOrFocusTask, watchTaskTerminals } from "./taskActions.ts";
+import { RefreshCoordinator } from "./refreshCoordinator.ts";
+import {
+  disposeTaskTerminalState,
+  runOrFocusTask,
+  watchTaskTerminals,
+} from "./taskActions.ts";
 import {
   applyRunningState,
   disposeStatusBar,
@@ -20,57 +37,39 @@ import {
   SelectTaskCommand,
   showTaskMenu,
   syncStatusBar,
-  taskAtIndex,
 } from "./statusBar.ts";
-import type { BuiltItem } from "./load.ts";
-
-const MinimumFetchInterval = 1000;
 
 let items: BuiltItem[] = [];
-let fetchLastTime = 0;
-let fetchTimer: ReturnType<typeof setTimeout> | undefined;
+let refreshTimer: ReturnType<typeof setTimeout> | undefined;
+let coordinator: RefreshCoordinator<LoadSnapshot> | undefined;
+let panelMessageQueue: Promise<void> = Promise.resolve();
 
-function asTask(args: unknown): vscode.Task | undefined {
-  if (typeof args === "number") {
-    return taskAtIndex(args - 1);
-  }
-  if (args && typeof args === "object" && "name" in args) {
-    return args as vscode.Task;
+function asTask(value: unknown): vscode.Task | undefined {
+  if (value && typeof value === "object" && "name" in value && "definition" in value) {
+    return value as vscode.Task;
   }
 }
 
-async function loadTasks(): Promise<void> {
-  try {
-    items = await buildItems();
-    syncStatusBar(items);
-    postPanelState(panelState());
-  } catch (err) {
-    const message = err instanceof Error ? err.message : String(err);
-    log(`Failed to load tasks: ${message}`);
-  }
+function applySnapshot(snapshot: LoadSnapshot): void {
+  items = snapshot.items;
+  rememberSnapshot(snapshot);
+  syncStatusBar(items, snapshot.panel.hasWorkspace);
+  postPanelState(snapshot.panel);
 }
 
-function loadTasksDelay(timeout: number): void {
-  if (fetchTimer !== undefined) {
-    clearTimeout(fetchTimer);
-  }
-  fetchTimer = setTimeout(() => {
-    fetchTimer = undefined;
-    fetchLastTime = Date.now();
-    void loadTasks();
-  }, timeout);
+function reportRefreshFailure(error: unknown): void {
+  const message = error instanceof Error ? error.message : String(error);
+  log("Failed to load tasks: " + message);
 }
 
-function loadTasksWait(): void {
-  const now = Date.now();
-  if (now < fetchLastTime + MinimumFetchInterval) {
-    loadTasksDelay(MinimumFetchInterval);
-    return;
+function requestRefresh(delay = 100): void {
+  if (refreshTimer !== undefined) {
+    clearTimeout(refreshTimer);
   }
-  if (fetchTimer === undefined) {
-    fetchLastTime = now;
-    void loadTasks();
-  }
+  refreshTimer = setTimeout(() => {
+    refreshTimer = undefined;
+    coordinator?.request();
+  }, delay);
 }
 
 async function handlePanelMessage(message: PanelMessage): Promise<void> {
@@ -83,10 +82,7 @@ async function handlePanelMessage(message: PanelMessage): Promise<void> {
         await updateStatusbarSetting("default.hide", message.enabled);
         break;
       case "setDefaultColor":
-        await updateStatusbarSetting(
-          "default.color",
-          message.color.length > 0 ? message.color : undefined,
-        );
+        await updateStatusbarSetting("default.color", message.color || undefined);
         break;
       case "setLimit":
         await updateStatusbarSetting("limit", message.limit);
@@ -95,22 +91,13 @@ async function handlePanelMessage(message: PanelMessage): Promise<void> {
         await updateStatusbarSetting("compact", message.enabled);
         break;
       case "setSelectLabel":
-        await updateStatusbarSetting(
-          "select.label",
-          message.label.trim() || "...",
-        );
+        await updateStatusbarSetting("select.label", message.label.trim() || "Tasks");
         break;
       case "setSelectColor":
-        await updateStatusbarSetting(
-          "select.color",
-          message.color.length > 0 ? message.color : undefined,
-        );
+        await updateStatusbarSetting("select.color", message.color || undefined);
         break;
       case "setSelectIcon":
-        await updateStatusbarSetting(
-          "select.icon",
-          message.icon.trim() || undefined,
-        );
+        await updateStatusbarSetting("select.icon", message.icon || undefined);
         break;
       case "setRunningIndicator":
         await updateStatusbarSetting("running.indicator", message.enabled);
@@ -122,21 +109,20 @@ async function handlePanelMessage(message: PanelMessage): Promise<void> {
         await updateTaskStatusbar(message.key, { hide: message.hide });
         break;
       case "setTaskLabel": {
-        const row = listPanelTasks().find((task) => task.key === message.key);
+        const row = panelState().tasks.find((task) => task.key === message.key);
         const typed = splitLabelEmoji(message.label);
         const label = joinLabelEmoji(typed.emoji || row?.emoji || "", typed.text);
         await updateTaskStatusbar(message.key, { label });
         break;
       }
       case "setTaskEmoji": {
-        const row = listPanelTasks().find((task) => task.key === message.key);
-        const text = (row?.label ?? "").trim() || splitLabelEmoji(row?.title ?? "").text;
-        const label = joinLabelEmoji(message.emoji, text);
+        const row = panelState().tasks.find((task) => task.key === message.key);
+        const label = joinLabelEmoji(message.emoji, row?.label || row?.title || "");
         await updateTaskStatusbar(message.key, { label });
         break;
       }
       case "setTaskColor":
-        await updateTaskStatusbar(message.key, { color: message.color });
+        await updateTaskStatusbar(message.key, { color: message.color.trim() });
         break;
       case "openTaskSource":
         await openTaskSource(message.key);
@@ -150,46 +136,92 @@ async function handlePanelMessage(message: PanelMessage): Promise<void> {
         }
         return;
     }
-    await loadTasks();
-  } catch (err) {
-    const text = err instanceof Error ? err.message : String(err);
+    requestRefresh(0);
+  } catch (error) {
+    const text = error instanceof Error ? error.message : String(error);
     log(text);
     await vscode.window.showErrorMessage(text);
   }
 }
 
+function receivePanelMessage(value: unknown): void {
+  const message = parsePanelMessage(value);
+  if (!message) {
+    log("Ignored invalid settings panel message.");
+    return;
+  }
+  if (!isPanelMessageForKnownTask(message, panelState().tasks)) {
+    log("Ignored settings panel message for an unknown task.");
+    return;
+  }
+  panelMessageQueue = panelMessageQueue.then(
+    () => handlePanelMessage(message),
+    () => handlePanelMessage(message),
+  );
+}
+
+function isTaskSource(document: vscode.TextDocument): boolean {
+  const path = document.uri.path.toLowerCase();
+  if (path.endsWith("/.vscode/tasks.json")) {
+    return true;
+  }
+  if (!path.endsWith(".code-workspace")) {
+    return false;
+  }
+  const workspaceFile = vscode.workspace.workspaceFile;
+  return workspaceFile?.path.toLowerCase().endsWith(".code-workspace") === true &&
+    workspaceFile.toString() === document.uri.toString();
+}
+
 export function activate(context: vscode.ExtensionContext): void {
+  coordinator = new RefreshCoordinator(buildSnapshot, applySnapshot, reportRefreshFailure);
+  const taskWatcher = vscode.workspace.createFileSystemWatcher("**/.vscode/tasks.json");
+  const workspaceFile = vscode.workspace.workspaceFile?.path.toLowerCase().endsWith(".code-workspace")
+    ? vscode.workspace.workspaceFile
+    : undefined;
+  const workspaceWatcher = workspaceFile
+    ? vscode.workspace.createFileSystemWatcher(
+        new vscode.RelativePattern(
+          vscode.Uri.joinPath(workspaceFile, ".."),
+          "*.code-workspace",
+        ),
+      )
+    : undefined;
   context.subscriptions.push(
-    vscode.commands.registerCommand(RunTaskCommand, (args: unknown) => {
-      const task = asTask(args);
+    vscode.commands.registerCommand(RunTaskCommand, (value: unknown) => {
+      const task = asTask(value);
       if (task) {
         runOrFocusTask(task);
-        return;
+      } else {
+        log("Ignored invalid task command argument.");
       }
-      log(`Invalid task: ${args}`);
     }),
     vscode.commands.registerCommand(SelectTaskCommand, async () => {
       const value = await showTaskMenu();
-      if (!value) {
-        return;
-      }
-      if (value.type === "settings") {
+      if (value?.type === "settings") {
         await vscode.commands.executeCommand(OpenPanelCommand);
-        return;
+      } else if (value?.type === "run") {
+        runOrFocusTask(value.task);
       }
-      runOrFocusTask(value.task);
+    }),
+    vscode.commands.registerCommand(OpenPanelCommand, () => {
+      openSettingsPanel(context, panelState, receivePanelMessage);
     }),
     watchTaskTerminals(),
-    vscode.commands.registerCommand(OpenPanelCommand, () => {
-      openSettingsPanel(context, panelState, handlePanelMessage);
-    }),
+    taskWatcher,
+    taskWatcher.onDidCreate(() => requestRefresh()),
+    taskWatcher.onDidChange(() => requestRefresh()),
+    taskWatcher.onDidDelete(() => requestRefresh()),
     vscode.workspace.onDidChangeConfiguration((event) => {
-      if (event.affectsConfiguration("tasks")) {
-        loadTasksWait();
+      if (event.affectsConfiguration("tasks.statusbar")) {
+        requestRefresh();
       }
     }),
-    vscode.workspace.onDidChangeWorkspaceFolders(() => {
-      loadTasksWait();
+    vscode.workspace.onDidChangeWorkspaceFolders(() => requestRefresh()),
+    vscode.workspace.onDidChangeTextDocument((event) => {
+      if (isTaskSource(event.document)) {
+        requestRefresh(180);
+      }
     }),
     vscode.tasks.onDidStartTask((event) => {
       applyRunningState(
@@ -199,17 +231,37 @@ export function activate(context: vscode.ExtensionContext): void {
       );
     }),
     vscode.tasks.onDidEndTask((event) => {
-      applyRunningState(event.execution.task, items, false);
+      applyRunningState(
+        event.execution.task,
+        items,
+        isTaskRunning(
+          event.execution.task,
+          vscode.tasks.taskExecutions
+            .filter((execution) => execution !== event.execution)
+            .map((execution) => execution.task),
+        ),
+      );
     }),
   );
-  loadTasksDelay(0);
+  if (workspaceWatcher) {
+    context.subscriptions.push(
+      workspaceWatcher,
+      workspaceWatcher.onDidCreate(() => requestRefresh()),
+      workspaceWatcher.onDidChange(() => requestRefresh()),
+      workspaceWatcher.onDidDelete(() => requestRefresh()),
+    );
+  }
+  requestRefresh(0);
 }
 
 export function deactivate(): void {
-  if (fetchTimer !== undefined) {
-    clearTimeout(fetchTimer);
-    fetchTimer = undefined;
+  if (refreshTimer !== undefined) {
+    clearTimeout(refreshTimer);
+    refreshTimer = undefined;
   }
+  coordinator?.dispose();
+  coordinator = undefined;
+  disposeTaskTerminalState();
   disposeStatusBar();
   disposeLog();
 }

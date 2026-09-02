@@ -9,12 +9,13 @@
       "problemMatcher": [],
       "options": {
         "statusbar": {
-          "label": "$(play) echo",
+          "hide": false,
+          "label": "echo",
+          "icon": { "id": "play" },
           "detail": "Print a line in the terminal",
           "color": "#22C1D6",
           "running": {
-            "label": "echoing",
-            "icon": { "id": "sync~spin" }
+            "label": "echoing"
           }
         }
       }
@@ -32,6 +33,19 @@
       }
     },
     {
+      "label": "process-echo",
+      "type": "process",
+      "command": "node",
+      "args": ["-e", "console.log('process')"],
+      "problemMatcher": []
+    },
+    {
+      "label": "all-echoes",
+      "dependsOn": ["echo", "process-echo"],
+      "dependsOrder": "sequence",
+      "problemMatcher": []
+    },
+    {
       "label": "readme-only",
       "type": "shell",
       "command": "echo",
@@ -39,8 +53,9 @@
       "problemMatcher": [],
       "options": {
         "statusbar": {
+          "hide": false,
           "label": "readme",
-          "filePattern": "README\\.md$"
+          "fileGlob": "README.md"
         }
       }
     },
@@ -51,6 +66,7 @@
       "problemMatcher": [],
       "options": {
         "statusbar": {
+          "hide": false,
           "icon": { "id": "package" }
         }
       }
@@ -63,13 +79,14 @@
       "problemMatcher": [],
       "options": {
         "statusbar": {
+          "hide": false,
           "icon": { "id": "folder" }
         }
       }
     },
     {
       "label": "server",
-      "type": "shell",
+      "type": "process",
       "command": "node",
       "args": [
         "-e",
@@ -79,7 +96,9 @@
       "problemMatcher": [],
       "options": {
         "statusbar": {
-          "label": "$(server) server",
+          "hide": false,
+          "label": "server",
+          "icon": { "id": "server" },
           "detail": "Long-running background task"
         }
       }

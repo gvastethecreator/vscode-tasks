@@ -2,20 +2,41 @@
 
 All notable changes to Status Bar Tasks are documented in this file.
 
-## [0.0.1] - unreleased
-
-Rewrite of [actboy168/vscode-tasks](https://github.com/actboy168/vscode-tasks) for current VS Code.
+## [0.1.0] - Unreleased
 
 ### Added
 
-- TypeScript source, esbuild bundle, pnpm, Node tests, and GitHub Actions CI
-- Settings webview, command **Status Bar Tasks: Open Status Bar Tasks Settings**, and a gear on the status bar
-- Per-task show, label, icon, color, tooltip, and file pattern edits written to `tasks.json`
-- npm matching by `path` and `cwd`
+- One persistent task menu and up to ten pinned task buttons.
+- The original compact settings panel for task visibility, emojis, labels, colors, running controls, preview, reset, and project support. Advanced metadata remains in the task source.
+- Stable source identities for folder and saved-workspace task files.
+- Workspace-scoped provider, compound, process, shell, and background task fixtures.
+- Unit, performance, Extension Host, schema, VSIX inspection, and clean-profile smoke checks.
+- Separate manual release jobs for VS Code Marketplace and Open VSX.
+- Upstream attribution in the packaged `NOTICE` file.
 
 ### Changed
 
-- Publisher `gvastethecreator`, extension id `status-bar-tasks`
-- Commands `statusBarTasks.run`, `statusBarTasks.select`, and `statusBarTasks.openPanel`
-- Fetch all workspace tasks, then match by public `name`, `definition`, and `scope`
-- Tooltips are not trusted markdown
+- Tasks are hidden from direct Status Bar buttons by default.
+- The default pin limit is three.
+- One-shot tasks use a spinner. Background tasks use a stable icon and the `Online` status.
+- Task matching uses public name, definition, scope, provider, path, and working-directory fields.
+- Terminal focus uses execution and process association before a unique name fallback.
+- The extension runs with the workspace extension host in Remote Development.
+- Task-source edits use `WorkspaceEdit` and stay open for review.
+
+### Security
+
+- Panel messages use exact runtime checks for type, shape, length, current task identity, emoji, icon, color, and URL.
+- The panel uses a cryptographic nonce, local assets, and a default-deny CSP.
+- Dynamic task rows use DOM creation and `textContent`.
+- Task tooltips are plain text.
+- User task commands and arguments never enter panel identity keys.
+
+### Removed
+
+- Arbitrary `filePattern` regular expressions. Use `fileGlob`.
+- The default warning background for ordinary running tasks. The original highlight remains available as an explicit setting.
+- The unbounded Status Bar item path.
+- The unsafe global task-name fallback.
+- Raw writes to closed task files.
+- Global User-task discovery in 0.1.0.

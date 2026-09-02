@@ -66,8 +66,5 @@ export function joinLabelEmoji(emoji: string, text: string): string {
   if (!mark) {
     return body;
   }
-  if (!body) {
-    return mark;
-  }
-  return `${mark} ${body}`;
+  return body ? `${mark} ${body}` : mark;
 }
