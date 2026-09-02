@@ -31,6 +31,11 @@ try {
   });
 } finally {
   if (tempRoot.startsWith(os.tmpdir() + path.sep)) {
-    await rm(tempRoot, { recursive: true, force: true });
+    await rm(tempRoot, {
+      recursive: true,
+      force: true,
+      maxRetries: 10,
+      retryDelay: 200,
+    });
   }
 }

@@ -86,7 +86,7 @@
     },
     {
       "label": "server",
-      "type": "shell",
+      "type": "process",
       "command": "node",
       "args": [
         "-e",

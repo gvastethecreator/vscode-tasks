@@ -45,29 +45,47 @@ async function assertRunningCommandFocuses(task) {
     (event) => event.execution.task.name === task.name,
     "Background task start",
   );
+  const ended = nextTaskEvent(
+    vscode.tasks.onDidEndTask,
+    (event) => event.execution.task.name === task.name,
+    "Background task end",
+  );
   await vscode.commands.executeCommand("statusBarTasks.run", task);
   const event = await started;
   try {
     await new Promise((resolve) => setTimeout(resolve, 350));
+    let executions = vscode.tasks.taskExecutions.filter(
+      (execution) => execution.task.name === task.name,
+    );
     assert.equal(
-      vscode.tasks.taskExecutions.filter((execution) => execution.task.name === task.name).length,
+      executions.length,
       1,
       "The first click must start one task execution.",
     );
+    assert.equal(
+      executions[0],
+      event.execution,
+      "The first click must keep its original execution active.",
+    );
     await vscode.commands.executeCommand("statusBarTasks.run", task);
     await new Promise((resolve) => setTimeout(resolve, 350));
+    executions = vscode.tasks.taskExecutions.filter(
+      (execution) => execution.task.name === task.name,
+    );
     assert.equal(
-      vscode.tasks.taskExecutions.filter((execution) => execution.task.name === task.name).length,
+      executions.length,
       1,
-      "A click on a running task must focus instead of starting another execution.",
+      "A click on a running task must not start another execution.",
+    );
+    assert.equal(
+      executions[0],
+      event.execution,
+      "A click on a running task must keep the original execution active.",
     );
   } finally {
-    const ended = nextTaskEvent(
-      vscode.tasks.onDidEndTask,
-      (candidate) => candidate.execution === event.execution,
-      "Background task end",
-    );
-    event.execution.terminate();
+    if (vscode.tasks.taskExecutions.includes(event.execution)) {
+      event.execution.terminate();
+    }
     await ended;
   }
 }
