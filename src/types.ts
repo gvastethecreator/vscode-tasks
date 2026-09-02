@@ -11,7 +11,7 @@ export type StatusBarStyle = {
   backgroundColor?: string;
   detail?: string;
   hide?: boolean;
-  filePattern?: string;
+  fileGlob?: string;
   running?: StatusBarStyle;
 };
 
@@ -23,9 +23,7 @@ export type TaskOptions = {
 export type TaskConfig = JsonObject & {
   type?: string;
   label?: string;
-  icon?: StatusBarIcon;
   detail?: string;
-  hide?: boolean;
   script?: string;
   path?: string;
   command?: string | string[];
@@ -53,7 +51,6 @@ export type TaskLike = {
   detail?: string;
   definition: JsonObject & { type: string };
   scope?: unknown;
-  icon?: StatusBarIcon;
   isBackground?: boolean;
 };
 
@@ -65,11 +62,14 @@ export type ColorValue =
 
 export type ResolvedAttrs = {
   label: string;
+  icon?: string;
   color?: ColorValue;
   backgroundColor?: string;
   detail?: string;
   hide: boolean;
-  filePattern?: string;
+  runKind?: RunKind;
+  fileGlob?: string;
+  fileGlobError?: string;
 };
 
 export type StatusBarDefaults = {
@@ -90,7 +90,7 @@ export type RunningControlSettings = {
 
 export type StatusBarSettings = {
   defaults: StatusBarDefaults;
-  limit: number | null;
+  limit: number;
   compact: boolean;
   select: SelectSettings;
   running: RunningControlSettings;

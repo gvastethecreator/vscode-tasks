@@ -74,10 +74,6 @@ export function computeTaskInfo(
   return result as TaskConfig;
 }
 
-export function tasksFromFile(value: unknown): TaskConfig[] {
-  return indexedTasks(asTasksFile(value) ?? {}).map((entry) => entry.task);
-}
-
 export function indexedTasks(
   file: TasksFile,
 ): { task: TaskConfig; index: number }[] {

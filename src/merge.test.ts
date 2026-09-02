@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import { test } from "node:test";
-import { computeTaskInfo, platformKey, tasksFromFile } from "./merge.ts";
+import { computeTaskInfo, indexedTasks, platformKey } from "./merge.ts";
 
 test("platformKey maps node platforms", () => {
   assert.equal(platformKey("win32"), "windows");
@@ -40,8 +40,7 @@ test("linux platform overrides do not apply on windows", () => {
   assert.equal(info.options?.statusbar?.hide, false);
 });
 
-test("tasksFromFile ignores missing or invalid tasks arrays", () => {
-  assert.deepEqual(tasksFromFile(undefined), []);
-  assert.deepEqual(tasksFromFile({ tasks: "nope" }), []);
-  assert.equal(tasksFromFile({ tasks: [{ label: "a" }, "x"] }).length, 1);
+test("indexedTasks ignores invalid task entries", () => {
+  assert.deepEqual(indexedTasks({ tasks: "nope" as never }), []);
+  assert.equal(indexedTasks({ tasks: [{ label: "a" }, "x" as never] }).length, 1);
 });

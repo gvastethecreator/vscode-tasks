@@ -2,7 +2,8 @@
   "name": "status-bar-tasks",
   "displayName": "Status Bar Tasks",
   "description": "Show VS Code workspace tasks as status bar buttons.",
-  "version": "0.0.1",
+  "version": "0.1.0",
+  "type": "module",
   "packageManager": "pnpm@12.2.1",
   "publisher": "gvastethecreator",
   "author": {
@@ -38,7 +39,22 @@
   "activationEvents": [
     "onStartupFinished"
   ],
-  "main": "./dist/extension.js",
+  "extensionKind": [
+    "workspace"
+  ],
+  "main": "./dist/extension.cjs",
+  "files": [
+    "dist/extension.cjs",
+    "media/icon.png",
+    "media/preview.png",
+    "media/panel.css",
+    "media/panel.js",
+    "schemas/**",
+    "CHANGELOG.md",
+    "LICENSE",
+    "NOTICE",
+    "README.md"
+  ],
   "capabilities": {
     "untrustedWorkspaces": {
       "supported": false,
@@ -76,7 +92,7 @@
     },
     "jsonValidation": [
       {
-        "fileMatch": "tasks.json",
+        "fileMatch": "**/.vscode/tasks.json",
         "url": "./schemas/tasks.json"
       },
       {
@@ -89,22 +105,22 @@
       "properties": {
         "tasks.statusbar.default.hide": {
           "type": "boolean",
-          "default": false,
-          "description": "Hide every task button unless the task sets options.statusbar.hide to false."
+          "default": true,
+          "description": "Show only tasks pinned with options.statusbar.hide set to false."
         },
         "tasks.statusbar.default.color": {
           "type": "string",
           "default": "",
+          "maxLength": 80,
+          "pattern": "^(?:|#[0-9A-Fa-f]{3,4}|#[0-9A-Fa-f]{6}|#[0-9A-Fa-f]{8}|[A-Za-z][A-Za-z0-9_-]*(?:\\.[A-Za-z0-9_-]+)+)$",
           "description": "Default status bar foreground. Use a hex color or a theme color id. Empty uses the theme."
         },
         "tasks.statusbar.limit": {
-          "type": [
-            "integer",
-            "null"
-          ],
-          "default": null,
+          "type": "integer",
+          "default": 3,
           "minimum": 0,
-          "description": "Maximum number of task buttons. Extra tasks move to the overflow Quick Pick. Null shows all."
+          "maximum": 10,
+          "description": "Maximum number of pinned task buttons. All tasks remain in the menu."
         },
         "tasks.statusbar.compact": {
           "type": "boolean",
@@ -113,47 +129,88 @@
         },
         "tasks.statusbar.select.label": {
           "type": "string",
-          "default": "...",
-          "description": "Label for the overflow status bar item."
+          "default": "Tasks",
+          "maxLength": 40,
+          "description": "Label for the task menu button."
         },
         "tasks.statusbar.select.icon": {
           "type": "string",
-          "default": "",
-          "description": "Codicon id for the menu button, such as run-all or play. Empty uses run-all in compact mode and no icon otherwise."
+          "default": "run-all",
+          "enum": [
+            "beaker",
+            "broadcast",
+            "check",
+            "cloud",
+            "code",
+            "database",
+            "debug-start",
+            "error",
+            "extensions",
+            "file-code",
+            "folder",
+            "gear",
+            "list-flat",
+            "package",
+            "play",
+            "refresh",
+            "rocket",
+            "run-all",
+            "server",
+            "stop-circle",
+            "symbol-event",
+            "sync",
+            "tasklist",
+            "terminal",
+            "tools",
+            "warning",
+            "watch"
+          ],
+          "description": "Codicon for the task menu button."
         },
         "tasks.statusbar.select.color": {
           "type": "string",
           "default": "",
+          "maxLength": 80,
+          "pattern": "^(?:|#[0-9A-Fa-f]{3,4}|#[0-9A-Fa-f]{6}|#[0-9A-Fa-f]{8}|[A-Za-z][A-Za-z0-9_-]*(?:\\.[A-Za-z0-9_-]+)+)$",
           "description": "Foreground for the overflow status bar item. Use a hex color or a theme color id."
         },
         "tasks.statusbar.running.indicator": {
           "type": "boolean",
           "default": true,
-          "description": "Show a green bullet next to a task while it is running."
+          "description": "Show a green bullet while a background task is online. One-shot tasks keep their spinner."
         },
         "tasks.statusbar.running.highlight": {
           "type": "boolean",
-          "default": true,
-          "description": "Use a warning background on a task while it is running."
+          "default": false,
+          "description": "Use the warning background while a task is running. Disabled by default."
         }
       }
     }
   },
   "scripts": {
     "vscode:prepublish": "pnpm run package",
-    "compile": "tsc --noEmit && node esbuild.js",
-    "watch": "node esbuild.js --watch",
-    "package": "tsc --noEmit && node esbuild.js --production",
-    "vsix": "pnpm run package && vsce package --no-dependencies",
+    "compile": "tsc --noEmit && node esbuild.cjs",
+    "watch": "node esbuild.cjs --watch",
+    "package": "tsc --noEmit && node esbuild.cjs --production",
+    "vsix": "vsce package --no-dependencies --out status-bar-tasks.vsix",
+    "inspect:vsix": "node scripts/inspect-vsix.mjs status-bar-tasks.vsix",
     "check-types": "tsc --noEmit",
-    "test": "node --test --experimental-strip-types src/*.test.ts"
+    "test": "pnpm run test:unit",
+    "test:unit": "node --test --experimental-strip-types src/*.test.ts",
+    "test:performance": "node --experimental-strip-types scripts/performance.mjs",
+    "test:integration": "node test/integration/run.mjs",
+    "test:vsix": "node test/integration/run-vsix.mjs",
+    "quality": "pnpm run test:unit && pnpm run check-types && pnpm run compile && pnpm run test:performance"
   },
   "devDependencies": {
     "@types/node": "^26.4.0",
     "@types/vscode": "^1.134.0",
+    "@types/yauzl": "3.4.0",
+    "@vscode/test-electron": "3.1.0",
     "@vscode/vsce": "^3.9.2",
     "esbuild": "^0.28.2",
-    "typescript": "^7.0.2"
+    "typescript": "^7.0.2",
+    "yauzl": "3.4.0"
   },
   "dependencies": {
     "jsonc-parser": "3.3.1"

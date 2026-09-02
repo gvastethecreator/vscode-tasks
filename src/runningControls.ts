@@ -1,10 +1,8 @@
 import { joinLabelEmoji, splitLabelEmoji } from "./emoji.ts";
 import type { RunningControlSettings } from "./types.ts";
 
-export const RUNNING_BULLET = "🟢";
 const ONCE_ICON = "$(sync~spin)";
-
-export type { RunningControlSettings };
+export const RUNNING_BULLET = "🟢";
 
 export function showRunningIndicator(
   settings: RunningControlSettings,
@@ -20,8 +18,5 @@ export function runningItemText(label: string, showBullet: boolean): string {
   if (hasSpinner) {
     return body ? `${ONCE_ICON} ${body}` : ONCE_ICON;
   }
-  if (!showBullet) {
-    return label;
-  }
-  return joinLabelEmoji(RUNNING_BULLET, body);
+  return showBullet ? joinLabelEmoji(RUNNING_BULLET, body) : label;
 }
