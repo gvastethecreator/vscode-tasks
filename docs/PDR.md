@@ -166,6 +166,10 @@ The support link opens the public project repository after an explicit click.
 - the 1,000-task pure matching check must finish in less than 2.5 seconds.
 - the same check must use less than 64 MB of additional heap.
 
+## Assets
+
+`media/source/status-bar-tasks-approved.png` preserves the accepted icon pixels as the canonical raster source. `media/icon.png` is rendered directly from that PNG; no SVG reinterpretation remains. `media/source/status-bar-tasks-preview.png` preserves the real VS Code runtime capture, while `media/preview.png` adds only transparent outer padding and rounded alpha corners.
+
 ## Explicit non-goals
 
 - User-task support.

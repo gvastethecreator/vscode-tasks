@@ -19,7 +19,7 @@ The `0.1.0` implementation is complete locally for the declared workspace-task s
 - The CI workflow contains the minimum/current/Insiders and Windows/macOS/Linux matrix. Its hosted result remains pending until the implementation is pushed.
 - SBT-031 remains an explicit operator action. No registry publication, tag, release, commit, or push has been performed.
 - The settings webview keeps the exact compact pre-PR composition. Advanced Codicon, tooltip, running-overlay, and file-glob capabilities remain available through task-source metadata without adding controls to the panel.
-- The final Marketplace preview is a real 1200×800 VS Code Extension Development Host capture of that compact panel. The 256×256 Marketplace icon uses a transparent, sober, flat canvas.
+- The final Marketplace preview is a real 1200×800 VS Code Extension Development Host capture of that compact panel, framed with native alpha. The 256×256 Marketplace icon is rendered directly from the approved transparent raster; no SVG reinterpretation remains.
 
 The audit below is retained as the historical baseline that this implementation resolves.
 

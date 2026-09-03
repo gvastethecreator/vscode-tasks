@@ -52,6 +52,7 @@ assert.deepEqual([icon.width, icon.height], [256, 256]);
 assert.ok(icon.colorType === 4 || icon.colorType === 6, "Marketplace icon must have an alpha channel.");
 const preview = pngMetadata(contents.get("extension/media/preview.png"), "Marketplace preview");
 assert.deepEqual([preview.width, preview.height], [1200, 800]);
+assert.ok(preview.colorType === 4 || preview.colorType === 6, "Marketplace preview must have an alpha channel.");
 console.log("VSIX inspection passed: " + names.size + " entries.");
 
 function inspect(file) {
