@@ -1,0 +1,107 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "echo",
+      "type": "shell",
+      "command": "echo",
+      "args": ["status-bar-tasks"],
+      "problemMatcher": [],
+      "options": {
+        "statusbar": {
+          "hide": false,
+          "label": "echo",
+          "icon": { "id": "play" },
+          "detail": "Print a line in the terminal",
+          "color": "#22C1D6",
+          "running": {
+            "label": "echoing"
+          }
+        }
+      }
+    },
+    {
+      "label": "hidden",
+      "type": "shell",
+      "command": "echo",
+      "args": ["hidden"],
+      "problemMatcher": [],
+      "options": {
+        "statusbar": {
+          "hide": true
+        }
+      }
+    },
+    {
+      "label": "process-echo",
+      "type": "process",
+      "command": "node",
+      "args": ["-e", "console.log('process')"],
+      "problemMatcher": []
+    },
+    {
+      "label": "all-echoes",
+      "dependsOn": ["echo", "process-echo"],
+      "dependsOrder": "sequence",
+      "problemMatcher": []
+    },
+    {
+      "label": "readme-only",
+      "type": "shell",
+      "command": "echo",
+      "args": ["readme"],
+      "problemMatcher": [],
+      "options": {
+        "statusbar": {
+          "hide": false,
+          "label": "readme",
+          "fileGlob": "README.md"
+        }
+      }
+    },
+    {
+      "type": "npm",
+      "script": "hello",
+      "label": "npm hello",
+      "problemMatcher": [],
+      "options": {
+        "statusbar": {
+          "hide": false,
+          "icon": { "id": "package" }
+        }
+      }
+    },
+    {
+      "type": "npm",
+      "script": "hello",
+      "path": "nested",
+      "label": "npm nested",
+      "problemMatcher": [],
+      "options": {
+        "statusbar": {
+          "hide": false,
+          "icon": { "id": "folder" }
+        }
+      }
+    },
+    {
+      "label": "server",
+      "type": "process",
+      "command": "node",
+      "args": [
+        "-e",
+        "setInterval(() => console.log('online'), 4000); console.log('listening')"
+      ],
+      "isBackground": true,
+      "problemMatcher": [],
+      "options": {
+        "statusbar": {
+          "hide": false,
+          "label": "server",
+          "icon": { "id": "server" },
+          "detail": "Long-running background task"
+        }
+      }
+    }
+  ]
+}

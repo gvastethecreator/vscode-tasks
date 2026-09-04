@@ -1,0 +1,198 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "definitions": {
+    "label": {
+      "type": "string",
+      "maxLength": 160,
+      "description": "Status bar label."
+    },
+    "icon": {
+      "type": "object",
+      "default": {
+        "id": "play"
+      },
+      "description": "Optional Codicon for the status bar item.",
+      "properties": {
+        "id": {
+          "description": "Approved Codicon id.",
+          "type": ["string", "null"],
+          "enum": [
+            null,
+            "beaker",
+            "broadcast",
+            "check",
+            "cloud",
+            "code",
+            "database",
+            "debug-start",
+            "error",
+            "extensions",
+            "file-code",
+            "folder",
+            "gear",
+            "list-flat",
+            "package",
+            "play",
+            "refresh",
+            "rocket",
+            "run-all",
+            "server",
+            "stop-circle",
+            "symbol-event",
+            "sync",
+            "tasklist",
+            "terminal",
+            "tools",
+            "warning",
+            "watch"
+          ]
+        }
+      },
+      "additionalProperties": false
+    },
+    "color": {
+      "type": "string",
+      "default": "#FFF",
+      "maxLength": 80,
+      "pattern": "^(?:#[0-9A-Fa-f]{3,4}|#[0-9A-Fa-f]{6}|#[0-9A-Fa-f]{8}|[A-Za-z][A-Za-z0-9_-]*(?:\\.[A-Za-z0-9_-]+)+)$",
+      "description": "Status bar foreground. Hex color or theme color id. See https://code.visualstudio.com/api/references/theme-color"
+    },
+    "backgroundColor": {
+      "type": "string",
+      "enum": [
+        "statusBarItem.errorBackground",
+        "statusBarItem.warningBackground"
+      ],
+      "markdownDescription": "Status bar background. VS Code only allows:\n* `statusBarItem.errorBackground`\n* `statusBarItem.warningBackground`"
+    },
+    "statusbar": {
+      "type": "object",
+      "description": "Status bar button for this task.",
+      "properties": {
+        "running": {
+          "type": "object",
+          "properties": {
+            "label": {
+              "$ref": "#/definitions/label"
+            },
+            "icon": {
+              "$ref": "#/definitions/icon"
+            },
+            "color": {
+              "$ref": "#/definitions/color"
+            },
+            "backgroundColor": {
+              "$ref": "#/definitions/backgroundColor"
+            }
+          },
+          "additionalProperties": false
+        },
+        "label": {
+          "$ref": "#/definitions/label"
+        },
+        "icon": {
+          "$ref": "#/definitions/icon"
+        },
+        "color": {
+          "$ref": "#/definitions/color"
+        },
+        "backgroundColor": {
+          "$ref": "#/definitions/backgroundColor"
+        },
+        "detail": {
+          "type": "string",
+          "maxLength": 512,
+          "default": "tooltip for statusbar",
+          "description": "Tooltip for the status bar item."
+        },
+        "hide": {
+          "type": "boolean",
+          "default": false,
+          "description": "If true, do not show this task on the status bar. Set false to show a task when tasks.statusbar.default.hide is true."
+        },
+        "fileGlob": {
+          "type": "string",
+          "maxLength": 256,
+          "description": "Show this button only for matching workspace-relative files. Supports *, **, and ?."
+        }
+      },
+      "additionalProperties": false
+    },
+    "options": {
+      "type": "object",
+      "properties": {
+        "statusbar": {
+          "$ref": "#/definitions/statusbar"
+        }
+      }
+    },
+    "tasks": {
+      "type": "object",
+      "properties": {
+        "windows": {
+          "type": "object",
+          "properties": {
+            "options": {
+              "$ref": "#/definitions/options"
+            }
+          }
+        },
+        "linux": {
+          "type": "object",
+          "properties": {
+            "options": {
+              "$ref": "#/definitions/options"
+            }
+          }
+        },
+        "osx": {
+          "type": "object",
+          "properties": {
+            "options": {
+              "$ref": "#/definitions/options"
+            }
+          }
+        },
+        "options": {
+          "$ref": "#/definitions/options"
+        },
+        "tasks": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "windows": {
+                "type": "object",
+                "properties": {
+                  "options": {
+                    "$ref": "#/definitions/options"
+                  }
+                }
+              },
+              "linux": {
+                "type": "object",
+                "properties": {
+                  "options": {
+                    "$ref": "#/definitions/options"
+                  }
+                }
+              },
+              "osx": {
+                "type": "object",
+                "properties": {
+                  "options": {
+                    "$ref": "#/definitions/options"
+                  }
+                }
+              },
+              "options": {
+                "$ref": "#/definitions/options"
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "$ref": "#/definitions/tasks"
+}

@@ -1,0 +1,15 @@
+node_modules/
+dist/
+out/
+*.vsix
+*.log
+logs/
+.DS_Store
+.env
+.env.*
+.scratch/
+.local/
+.code-review-graph/
+.vscode/settings.json
+.vscode-test/
+test-workspace/.vscode/settings.json

@@ -1,0 +1,226 @@
+{
+  "name": "status-bar-tasks",
+  "displayName": "Status Bar Tasks",
+  "description": "Show VS Code workspace tasks as status bar buttons.",
+  "version": "0.1.0",
+  "type": "module",
+  "packageManager": "pnpm@12.2.1",
+  "publisher": "gvastethecreator",
+  "author": {
+    "name": "gvastethecreator"
+  },
+  "license": "MIT",
+  "icon": "media/icon.png",
+  "galleryBanner": {
+    "color": "#0a0a0a",
+    "theme": "dark"
+  },
+  "pricing": "Free",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/gvastethecreator/vscode-tasks.git"
+  },
+  "bugs": {
+    "url": "https://github.com/gvastethecreator/vscode-tasks/issues"
+  },
+  "homepage": "https://github.com/gvastethecreator/vscode-tasks#readme",
+  "keywords": [
+    "task",
+    "tasks",
+    "statusbar",
+    "status bar"
+  ],
+  "engines": {
+    "vscode": "^1.134.0"
+  },
+  "categories": [
+    "Other"
+  ],
+  "activationEvents": [
+    "onStartupFinished"
+  ],
+  "extensionKind": [
+    "workspace"
+  ],
+  "main": "./dist/extension.cjs",
+  "files": [
+    "dist/extension.cjs",
+    "media/icon.png",
+    "media/preview.png",
+    "media/preview-settings.png",
+    "media/panel.css",
+    "media/panel.js",
+    "schemas/**",
+    "CHANGELOG.md",
+    "LICENSE",
+    "README.md"
+  ],
+  "capabilities": {
+    "untrustedWorkspaces": {
+      "supported": false,
+      "description": "Tasks are disabled in Restricted Mode."
+    },
+    "virtualWorkspaces": {
+      "supported": false
+    }
+  },
+  "contributes": {
+    "commands": [
+      {
+        "command": "statusBarTasks.run",
+        "title": "Run Task from Status Bar",
+        "category": "Status Bar Tasks"
+      },
+      {
+        "command": "statusBarTasks.select",
+        "title": "Run Task...",
+        "category": "Status Bar Tasks"
+      },
+      {
+        "command": "statusBarTasks.openPanel",
+        "title": "Open Status Bar Tasks Settings",
+        "category": "Status Bar Tasks"
+      }
+    ],
+    "menus": {
+      "commandPalette": [
+        {
+          "command": "statusBarTasks.run",
+          "when": "false"
+        }
+      ]
+    },
+    "jsonValidation": [
+      {
+        "fileMatch": "**/.vscode/tasks.json",
+        "url": "./schemas/tasks.json"
+      },
+      {
+        "fileMatch": "*.code-workspace",
+        "url": "./schemas/code-workspace.json"
+      }
+    ],
+    "configuration": {
+      "title": "Status Bar Tasks",
+      "properties": {
+        "tasks.statusbar.default.hide": {
+          "type": "boolean",
+          "default": false,
+          "description": "Hide all tasks from the status bar unless a task sets options.statusbar.hide to false."
+        },
+        "tasks.statusbar.default.color": {
+          "type": "string",
+          "default": "",
+          "maxLength": 80,
+          "pattern": "^(?:|#[0-9A-Fa-f]{3,4}|#[0-9A-Fa-f]{6}|#[0-9A-Fa-f]{8}|[A-Za-z][A-Za-z0-9_-]*(?:\\.[A-Za-z0-9_-]+)+)$",
+          "description": "Default status bar foreground. Use a hex color or a theme color id. Empty uses the theme."
+        },
+        "tasks.statusbar.limit": {
+          "type": "integer",
+          "default": 3,
+          "minimum": 0,
+          "maximum": 10,
+          "description": "Maximum number of pinned task buttons. All tasks remain in the menu."
+        },
+        "tasks.statusbar.compact": {
+          "type": "boolean",
+          "default": false,
+          "description": "Hide task buttons and keep only the menu button on the status bar."
+        },
+        "tasks.statusbar.select.label": {
+          "type": "string",
+          "default": "tasks",
+          "maxLength": 40,
+          "description": "Label for the task menu button."
+        },
+        "tasks.statusbar.select.showLabel": {
+          "type": "boolean",
+          "default": true,
+          "description": "Show the task menu label on the status bar."
+        },
+        "tasks.statusbar.select.icon": {
+          "type": "string",
+          "default": "run-all",
+          "enum": [
+            "beaker",
+            "broadcast",
+            "check",
+            "cloud",
+            "code",
+            "database",
+            "debug-start",
+            "error",
+            "extensions",
+            "file-code",
+            "folder",
+            "gear",
+            "list-flat",
+            "package",
+            "play",
+            "refresh",
+            "rocket",
+            "run-all",
+            "server",
+            "stop-circle",
+            "symbol-event",
+            "sync",
+            "tasklist",
+            "terminal",
+            "tools",
+            "warning",
+            "watch"
+          ],
+          "description": "Codicon for the task menu button."
+        },
+        "tasks.statusbar.select.color": {
+          "type": "string",
+          "default": "",
+          "maxLength": 80,
+          "pattern": "^(?:|#[0-9A-Fa-f]{3,4}|#[0-9A-Fa-f]{6}|#[0-9A-Fa-f]{8}|[A-Za-z][A-Za-z0-9_-]*(?:\\.[A-Za-z0-9_-]+)+)$",
+          "description": "Foreground for the task menu button. Use a hex color or a theme color id."
+        },
+        "tasks.statusbar.running.indicator": {
+          "type": "boolean",
+          "default": true,
+          "description": "Show a green bullet while a background task is online. One-shot tasks keep their spinner."
+        },
+        "tasks.statusbar.running.highlight": {
+          "type": "boolean",
+          "default": false,
+          "description": "Use the warning background while a task is running. Disabled by default."
+        }
+      }
+    }
+  },
+  "scripts": {
+    "vscode:prepublish": "pnpm run package",
+    "compile": "tsc --noEmit && node esbuild.cjs",
+    "watch": "node esbuild.cjs --watch",
+    "package": "tsc --noEmit && node esbuild.cjs --production",
+    "vsix": "vsce package --no-dependencies --out status-bar-tasks.vsix",
+    "inspect:vsix": "node scripts/inspect-vsix.mjs status-bar-tasks.vsix",
+    "check-types": "tsc --noEmit",
+    "test": "pnpm run test:unit",
+    "test:unit": "node --test --experimental-strip-types src/*.test.ts",
+    "test:performance": "node --experimental-strip-types scripts/performance.mjs",
+    "render:media": "node scripts/render-media.mjs",
+    "check:media": "node scripts/check-media.mjs",
+    "test:integration": "node test/integration/run.mjs",
+    "test:vsix": "node test/integration/run-vsix.mjs",
+    "quality": "pnpm run test:unit && pnpm run check-types && pnpm run compile && pnpm run test:performance && pnpm run check:media"
+  },
+  "devDependencies": {
+    "@types/node": "^26.4.0",
+    "@types/vscode": "^1.134.0",
+    "@types/yauzl": "3.4.0",
+    "@vscode/test-electron": "3.1.0",
+    "@vscode/vsce": "^3.9.2",
+    "esbuild": "^0.28.2",
+    "sharp": "^0.35.4",
+    "typescript": "^7.0.2",
+    "yauzl": "3.4.0"
+  },
+  "dependencies": {
+    "jsonc-parser": "3.3.1"
+  }
+}
