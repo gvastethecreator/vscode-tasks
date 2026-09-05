@@ -7,7 +7,14 @@ import sharp from "sharp";
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const media = path.join(root, "media");
 const source = path.join(media, "source", "status-bar-tasks-approved.png");
-const expectedIcon = await sharp(source).ensureAlpha().resize(256, 256, { fit: "contain" }).png().toBuffer();
+const expectedIcon = await sharp(source)
+  .ensureAlpha()
+  .resize(256, 256, {
+    fit: "contain",
+    background: { r: 0, g: 0, b: 0, alpha: 0 },
+  })
+  .png()
+  .toBuffer();
 const actualIcon = await readFile(path.join(media, "icon.png"));
 assert.deepEqual(actualIcon, expectedIcon, "media/icon.png is not a direct render of the approved raster source.");
 

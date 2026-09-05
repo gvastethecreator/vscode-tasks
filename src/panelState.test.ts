@@ -56,6 +56,7 @@ test("icons, limits, and outbound URLs use allowlists", () => {
     url: SUPPORT_URL,
   });
   assert.equal(parsePanelMessage({ type: "openUrl", url: "https://example.com" }), undefined);
+  assert.deepEqual(parsePanelMessage({ type: "setDefaults" }), { type: "setDefaults" });
 });
 
 test("task messages are limited to rows in the current panel state", () => {

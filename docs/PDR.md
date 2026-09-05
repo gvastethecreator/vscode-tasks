@@ -117,7 +117,7 @@ This path preserves comments, line endings, and the document byte-order mark.
 
 Global settings use the existing `tasks.statusbar.*` namespace. The settings panel writes them at workspace scope.
 
-Task-specific settings stay in the task source. Reset removes only the workspace values in this namespace.
+Task-specific settings stay in the task source. Reset removes only the workspace values in this namespace. Set defaults writes the factory values to user settings and to the current workspace.
 
 ## Compatibility
 
@@ -170,7 +170,7 @@ The support link opens the public project repository after an explicit click.
 
 ## Assets
 
-`media/source/status-bar-tasks-approved.png` preserves the accepted icon pixels as the canonical raster source. `media/icon.png` is rendered directly from that PNG; no SVG reinterpretation remains. `media/preview.png` shows the task menu and pinned tasks over synthetic TypeScript code, while `media/preview-settings.png` shows the compact settings panel beside the same code. Both are native-alpha captures from Status Bar Tasks 0.1.0 installed in stable VS Code.
+`media/source/status-bar-tasks-approved.png` is the accepted native-alpha Imagegen source for the Tag Mate-aligned, vectorized semi-3D task list in a strict front view. `media/icon.png` is its direct alpha-preserving 256×256 contain render; no SVG reinterpretation remains. `media/preview.png` shows the task menu and pinned tasks over synthetic TypeScript code, while `media/preview-settings.png` shows the compact settings panel beside the same code. Both are native-alpha captures from Status Bar Tasks 0.1.0 installed in stable VS Code.
 
 ## Explicit non-goals
 

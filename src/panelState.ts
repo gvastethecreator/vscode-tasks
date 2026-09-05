@@ -52,6 +52,7 @@ export type PanelMessage =
   | { type: "setTaskColor"; key: string; color: string }
   | { type: "openTaskSource"; key: string }
   | { type: "resetSettings" }
+  | { type: "setDefaults" }
   | { type: "openUrl"; url: string };
 
 export const SUPPORT_URL = "https://github.com/gvastethecreator/vscode-tasks";
@@ -70,6 +71,7 @@ export function parsePanelMessage(value: unknown): PanelMessage | undefined {
   switch (value.type) {
     case "ready":
     case "resetSettings":
+    case "setDefaults":
       return hasExactKeys(value, "type") ? { type: value.type } : undefined;
     case "setDefaultHide":
     case "setCompact":

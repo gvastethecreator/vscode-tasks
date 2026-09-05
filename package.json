@@ -80,6 +80,11 @@
         "command": "statusBarTasks.openPanel",
         "title": "Open Status Bar Tasks Settings",
         "category": "Status Bar Tasks"
+      },
+      {
+        "command": "statusBarTasks.setDefaults",
+        "title": "Set Defaults",
+        "category": "Status Bar Tasks"
       }
     ],
     "menus": {
@@ -216,6 +221,7 @@
     "@vscode/test-electron": "3.1.0",
     "@vscode/vsce": "^3.9.2",
     "esbuild": "^0.28.2",
+    "ovsx": "1.1.1",
     "sharp": "^0.35.4",
     "typescript": "^7.0.2",
     "yauzl": "3.4.0"

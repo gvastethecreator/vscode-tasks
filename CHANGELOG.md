@@ -10,6 +10,7 @@ All notable changes to Status Bar Tasks are documented in this file.
 - A compact settings panel for task visibility, emojis, labels, colors, running controls, preview, reset, and project support. Advanced metadata remains in the task source.
 - A menu-icon picker with Codicon previews.
 - A Show label toggle for the task menu button.
+- A Set defaults action that writes factory settings to user and workspace scope.
 - Stable source identities for folder and saved-workspace task files.
 - Workspace-scoped provider, compound, process, shell, and background task fixtures.
 - Unit, performance, Extension Host, schema, VSIX inspection, and clean-profile smoke checks.

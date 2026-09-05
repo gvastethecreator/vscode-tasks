@@ -22,6 +22,7 @@
   const defaultColor = byId("defaultColor");
   const defaultPicker = byId("defaultPicker");
   const resetSettings = byId("resetSettings");
+  const setDefaults = byId("setDefaults");
   const supportLink = byId("supportLink");
   let iconIds = new Set();
   let emojiKey = "";
@@ -330,6 +331,9 @@
   });
   resetSettings.addEventListener("click", () => {
     if (window.confirm("Reset Status Bar Tasks settings?")) send({ type: "resetSettings" });
+  });
+  setDefaults.addEventListener("click", () => {
+    if (window.confirm("Set Status Bar Tasks defaults for all workspaces?")) send({ type: "setDefaults" });
   });
   emojiMenu.addEventListener("click", (event) => {
     event.stopPropagation();

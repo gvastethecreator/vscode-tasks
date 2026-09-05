@@ -45,6 +45,20 @@ export async function resetStatusbarSettings(): Promise<void> {
   }
 }
 
+export async function setDefaultStatusbarSettings(): Promise<void> {
+  const config = vscode.workspace.getConfiguration("tasks.statusbar");
+  const targets: vscode.ConfigurationTarget[] = [vscode.ConfigurationTarget.Global];
+  if (vscode.workspace.workspaceFile || vscode.workspace.workspaceFolders?.length) {
+    targets.push(vscode.ConfigurationTarget.Workspace);
+  }
+  for (const key of SETTING_KEYS) {
+    const value = config.inspect(key)?.defaultValue;
+    for (const target of targets) {
+      await config.update(key, value, target);
+    }
+  }
+}
+
 function parseIdentity(key: string) {
   const identity = parseTaskIdentityKey(key);
   if (!identity) {

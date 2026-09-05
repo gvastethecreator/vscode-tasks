@@ -21,6 +21,7 @@ import { DEFAULT_MENU_LABEL } from "./overflowButton.ts";
 import {
   openTaskSource,
   resetStatusbarSettings,
+  setDefaultStatusbarSettings,
   updateStatusbarSetting,
   updateTaskStatusbar,
 } from "./persist.ts";
@@ -134,6 +135,9 @@ async function handlePanelMessage(message: PanelMessage): Promise<void> {
       case "resetSettings":
         await resetStatusbarSettings();
         break;
+      case "setDefaults":
+        await setDefaultStatusbarSettings();
+        break;
       case "openUrl":
         if (message.url === SUPPORT_URL) {
           await vscode.env.openExternal(vscode.Uri.parse(SUPPORT_URL));
@@ -210,6 +214,19 @@ export function activate(context: vscode.ExtensionContext): void {
     }),
     vscode.commands.registerCommand(OpenPanelCommand, () => {
       openSettingsPanel(context, panelState, receivePanelMessage);
+    }),
+    vscode.commands.registerCommand("statusBarTasks.setDefaults", async () => {
+      const confirm = "Set defaults";
+      const choice = await vscode.window.showWarningMessage(
+        "Set Status Bar Tasks defaults for all workspaces?",
+        { modal: true },
+        confirm,
+      );
+      if (choice !== confirm) {
+        return;
+      }
+      await setDefaultStatusbarSettings();
+      requestRefresh(0);
     }),
     watchTaskTerminals(),
     taskWatcher,
