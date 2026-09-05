@@ -10,6 +10,7 @@ VS Code extension `gvastethecreator.status-bar-tasks`. pnpm. TypeScript in `src/
 - Compile: `pnpm run compile`
 - Watch: `pnpm run watch`
 - Production bundle: `pnpm run package`
+- Quality: `pnpm run quality`
 - VSIX: `pnpm run vsix`
 
 F5 (`Run Extension`) compiles, then opens `test-workspace/`.

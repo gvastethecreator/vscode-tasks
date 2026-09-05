@@ -36,6 +36,17 @@
       "problemMatcher": []
     },
     {
+      "label": "Quality",
+      "type": "shell",
+      "command": "pnpm",
+      "args": [
+        "run",
+        "quality"
+      ],
+      "group": "test",
+      "problemMatcher": []
+    },
+    {
       "label": "Types",
       "type": "shell",
       "command": "pnpm",
@@ -96,6 +107,17 @@
       "problemMatcher": [
         "$tsc"
       ]
+    },
+    {
+      "label": "Check media",
+      "type": "shell",
+      "command": "pnpm",
+      "args": [
+        "run",
+        "check:media"
+      ],
+      "group": "none",
+      "problemMatcher": []
     }
   ]
 }

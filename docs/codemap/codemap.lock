@@ -1,0 +1,89 @@
+{
+  "source_commit": "cd286eafa7a1b2de5b4c00e8268226ac7914880e",
+  "working_tree_dirty": true,
+  "generated_at": "2026-09-05T04:45:27Z",
+  "scanned_scope": [
+    "."
+  ],
+  "excluded_directories": [
+    ".agents",
+    ".cache",
+    ".git",
+    ".hg",
+    ".next",
+    ".nuxt",
+    ".obsidian",
+    ".svn",
+    ".turbo",
+    ".venv",
+    ".vscode",
+    "__pycache__",
+    "build",
+    "coverage",
+    "dist",
+    "docs/codemap",
+    "generated",
+    "node_modules",
+    "out",
+    "target",
+    "vendor",
+    "venv"
+  ],
+  "fingerprint_algorithm": "sha256-path-content-v2",
+  "modules": [
+    {
+      "id": ".",
+      "path": ".",
+      "file_count": 12,
+      "fingerprint": "729b5bab87781538a8d0ba305e7ee4e787aa3c95d66abb1789f47ded156c7485"
+    },
+    {
+      "id": ".github",
+      "path": ".github",
+      "file_count": 2,
+      "fingerprint": "3735273ec501efb15534182f850eb64533666c2a3982b3937b9e22d0be2bfeef"
+    },
+    {
+      "id": "docs",
+      "path": "docs",
+      "file_count": 11,
+      "fingerprint": "df0197b7d41ce3761a9980bcaf1051b934b7b3718f3d6982c422178e23106522"
+    },
+    {
+      "id": "media",
+      "path": "media",
+      "file_count": 6,
+      "fingerprint": "2fa6c454f5017322f31048dfb1c8098b6a40732f3e6f90e9625d242776bd9cdb"
+    },
+    {
+      "id": "schemas",
+      "path": "schemas",
+      "file_count": 2,
+      "fingerprint": "12f1da1095db442762018bbd0fb707e677af1d11631750524dd5359c375229ea"
+    },
+    {
+      "id": "scripts",
+      "path": "scripts",
+      "file_count": 4,
+      "fingerprint": "2858f045d25f12f4a74eab90a46f9b89934b4280ac6ce0b2fefb14b44fd4073e"
+    },
+    {
+      "id": "src",
+      "path": "src",
+      "file_count": 38,
+      "fingerprint": "e640db2922e9c48b0eedb5b560c3f4041133f3276c3cb8079ede0180168a9a9c"
+    },
+    {
+      "id": "test",
+      "path": "test",
+      "file_count": 5,
+      "fingerprint": "d4d1e9632374d721c99d0cc815a44e559d31718cf2e0ec0310eb05935eb48574"
+    },
+    {
+      "id": "test-workspace",
+      "path": "test-workspace",
+      "file_count": 4,
+      "fingerprint": "cc7a7da89f6007449c74fc47700b2cea43d48d6be50c762081c5bc7423008d8b"
+    }
+  ]
+}
