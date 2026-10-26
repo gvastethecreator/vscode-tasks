@@ -2,7 +2,7 @@
   "name": "status-bar-tasks",
   "displayName": "Status Bar Tasks",
   "description": "Show VS Code workspace tasks as status bar buttons.",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "type": "module",
   "packageManager": "pnpm@12.15.0",
   "publisher": "gvastethecreator",

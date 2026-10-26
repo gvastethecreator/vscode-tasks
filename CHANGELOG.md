@@ -2,13 +2,14 @@
 
 All notable changes to Status Bar Tasks are documented in this file.
 
-## [Unreleased]
+## [0.1.1] - 2026-10-26
 
+- Refreshed README screenshots from the packaged extension running in stable VS Code.
 - Fixed: an error notification no longer blocks later settings panel actions until dismissed.
 - Task sources refresh on save instead of every keystroke, and workspaces without task sources no longer activate every task provider.
 - The task menu lists Stop and Restart for each exact live TaskExecution. Restart waits for that execution's end event, then starts its task once. If stopping does not finish within 30 seconds, no replacement starts. Pinned buttons keep run-or-focus behavior. Recent Tasks retains up to ten opaque task references in workspace state and resolves them against current unambiguous tasks. No commands, arguments or environment values are stored. The menu can clear recent references. Delayed terminal lookups must still belong to a live execution and open terminal before they are stored.
 
-## [0.1.0] - Unreleased
+## [0.1.0] - Local candidate
 
 ### Added
 

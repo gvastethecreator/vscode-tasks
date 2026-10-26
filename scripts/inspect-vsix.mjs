@@ -1,5 +1,5 @@
 import assert from "node:assert/strict";
-import { readdir, stat } from "node:fs/promises";
+import { readFile, readdir, stat } from "node:fs/promises";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import yauzl from "yauzl";
@@ -42,7 +42,7 @@ for (const name of names) {
 
 const manifest = JSON.parse(contents.get("extension/package.json").toString("utf8"));
 assert.equal(manifest.name, "status-bar-tasks");
-assert.equal(manifest.version, "0.1.0");
+assert.equal(manifest.version, JSON.parse(await readFile(path.join(root, "package.json"), "utf8")).version);
 assert.equal(manifest.main, "./dist/extension.cjs");
 assert.deepEqual(manifest.extensionKind, ["workspace"]);
 assert.equal(manifest.capabilities.untrustedWorkspaces.supported, false);
@@ -51,10 +51,10 @@ const icon = pngMetadata(contents.get("extension/media/icon.png"), "Marketplace 
 assert.deepEqual([icon.width, icon.height], [256, 256]);
 assert.ok(icon.colorType === 4 || icon.colorType === 6, "Marketplace icon must have an alpha channel.");
 const preview = pngMetadata(contents.get("extension/media/preview.png"), "Marketplace preview");
-assert.deepEqual([preview.width, preview.height], [1200, 800]);
+assert.ok(preview.width >= 640 && preview.width <= 1200 && preview.height >= 200 && preview.height <= 800, "Marketplace preview must fit the portfolio crop dimensions.");
 assert.ok(preview.colorType === 4 || preview.colorType === 6, "Marketplace preview must have an alpha channel.");
 const settingsPreview = pngMetadata(contents.get("extension/media/preview-settings.png"), "Settings preview");
-assert.deepEqual([settingsPreview.width, settingsPreview.height], [1200, 800]);
+assert.ok(settingsPreview.width >= 640 && settingsPreview.width <= 1200 && settingsPreview.height >= 200 && settingsPreview.height <= 800, "Settings preview must fit the portfolio crop dimensions.");
 assert.ok(settingsPreview.colorType === 4 || settingsPreview.colorType === 6, "Settings preview must have an alpha channel.");
 console.log("VSIX inspection passed: " + names.size + " entries.");
 

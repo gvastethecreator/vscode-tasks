@@ -1,7 +1,7 @@
 # Code map: vscode-tasks
 
-Generated: 2026-10-26T04:43:33Z | Commit: `345e48d2ded0` | Schema: 2
-Generation: `cdd26fcb62256743626cb277b3df0c0fef561e0e481a6925a38fbfdbeda6f29d`
+Generated: 2026-10-26T07:35:22Z | Commit: `ec59ef4c01df` | Schema: 2
+Generation: `7cf58ba91b16adf96f00bee7d6f6dcc25dc6290b6e3d9ce1e493b6f46ccc1209`
 Scope: . | Inventory: working-tree
 Nodes: 71 | Edges: 250 | Flows: 0
 
@@ -9,7 +9,7 @@ Nodes: 71 | Edges: 250 | Flows: 0
 
 - Analysis: **partial**; 54 analyzed of 56 included files.
 - Configuration files: 1; omitted untracked files: 0.
-- Unresolved references and analysis limits: 297.
+- Unresolved references and analysis limits: 298.
 - Static references and call paths do not prove runtime execution or test coverage.
 
 ## Modules

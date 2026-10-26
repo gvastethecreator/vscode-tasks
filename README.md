@@ -19,7 +19,7 @@ Keep every matched task in one menu and pin up to ten frequent tasks beside it.
 <table>
   <tr>
     <td width="50%"><img src="media/preview.png" alt="Status Bar Tasks menu over example TypeScript code in VS Code" width="100%"></td>
-    <td width="50%"><img src="media/preview-settings.png" alt="Status Bar Tasks settings beside example TypeScript code" width="100%"></td>
+    <td width="50%"><img src="media/preview-settings.png" alt="Status Bar Tasks settings shown without the sidebar or source editor" width="100%"></td>
   </tr>
   <tr>
     <td align="center"><sub>Task menu and pinned tasks</sub></td>
