@@ -1,0 +1,7 @@
+{
+  "name": "nested-fixture",
+  "private": true,
+  "scripts": {
+    "hello": "node -e \"console.log('nested hello')\""
+  }
+}

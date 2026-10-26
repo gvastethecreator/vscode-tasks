@@ -1,0 +1,11 @@
+{
+  "name": "status-bar-tasks-test-runner",
+  "displayName": "Status Bar Tasks Test Runner",
+  "version": "0.0.0",
+  "publisher": "gvastethecreator",
+  "engines": {
+    "vscode": "^1.134.0"
+  },
+  "main": "./extension.cjs",
+  "activationEvents": []
+}

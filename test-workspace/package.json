@@ -1,0 +1,8 @@
+{
+  "name": "status-bar-tasks-fixture",
+  "private": true,
+  "scripts": {
+    "hello": "node -e \"console.log('hello')\"",
+    "nested-hello": "node -e \"console.log('nested')\""
+  }
+}
