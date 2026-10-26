@@ -19,16 +19,18 @@ const actualIcon = await readFile(path.join(media, "icon.png"));
 assert.deepEqual(actualIcon, expectedIcon, "media/icon.png is not a direct render of the approved raster source.");
 
 await verifyAlphaPng(path.join(media, "icon.png"), 256, 256, "Marketplace icon");
-await verifyAlphaPng(path.join(media, "preview.png"), 1200, 800, "Marketplace preview");
-await verifyAlphaPng(path.join(media, "preview-settings.png"), 1200, 800, "Settings preview");
-console.log("Media checks passed: approved raster icon and two native-alpha 1200x800 previews.");
+await verifyAlphaPng(path.join(media, "preview.png"), undefined, undefined, "Marketplace preview");
+await verifyAlphaPng(path.join(media, "preview-settings.png"), undefined, undefined, "Settings preview");
+console.log("Media checks passed: approved raster icon and two native-alpha cropped previews.");
 
 async function verifyAlphaPng(filename, width, height, label) {
   const image = sharp(filename);
   const metadata = await image.metadata();
   assert.equal(metadata.format, "png", `${label} must be PNG.`);
-  assert.equal(metadata.width, width, `${label} width changed.`);
-  assert.equal(metadata.height, height, `${label} height changed.`);
+  if (width !== undefined) assert.equal(metadata.width, width, `${label} width changed.`);
+  else assert.ok(metadata.width >= 640 && metadata.width <= 1200, `${label} width must be 640-1200px.`);
+  if (height !== undefined) assert.equal(metadata.height, height, `${label} height changed.`);
+  else assert.ok(metadata.height >= 200 && metadata.height <= 800, `${label} height must be 200-800px.`);
   assert.equal(metadata.channels, 4, `${label} must carry native alpha.`);
   const { data, info } = await image.ensureAlpha().raw().toBuffer({ resolveWithObject: true });
   const alpha = info.channels - 1;

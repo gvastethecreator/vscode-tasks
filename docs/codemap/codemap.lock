@@ -1,9 +1,9 @@
 {
   "schema_version": 2,
-  "source_commit": "ec59ef4c01dfdf2adf18fabc31fc2e6d8268a2c7",
+  "source_commit": "f7b3c07872819981bfb1b9108f8beed7dc961bb3",
   "working_tree_dirty": true,
-  "generated_at": "2026-10-26T07:35:22Z",
-  "generation_id": "7cf58ba91b16adf96f00bee7d6f6dcc25dc6290b6e3d9ce1e493b6f46ccc1209",
+  "generated_at": "2026-10-26T07:41:56Z",
+  "generation_id": "d2b0205c6757c54c1d154d788f17d64dbf3aa9b7b0a5c132118708bb21848e4c",
   "analysis": {
     "version": "syntax-1",
     "digest": "aac5588c813568478eb34b9cb090e19685ad183efe6d8b3496f261834a7c0f44"
@@ -67,8 +67,8 @@
         "path": "scripts/check-media.mjs",
         "origin": "tracked",
         "state": "present",
-        "digest": "c513f857819febda2986dc1d777f567f13c3e4fb81827469f3f2a8f02b995a08",
-        "size": 1986
+        "digest": "ea786ced391f054c20a629143dacb6c0fadd50525c95b4cbf03a7b17116e9022",
+        "size": 2274
       },
       {
         "path": "scripts/inspect-vsix.mjs",
@@ -435,12 +435,12 @@
         "size": 375
       }
     ],
-    "digest": "7cea15763529df757d05836c799a7f842cf49a248855d714f725af0e0dcb7955"
+    "digest": "6c5c28460a54e44a180d4bfd8e6abf3291d2dcf43f97387af2cc40407bd78871"
   },
-  "source_digest": "1ec38d84d3170c48a22bf1d32fb01394377b165d4ae0ac22e0d6049ed2fc5d3e",
+  "source_digest": "fcd32441f6a1b7279655d8b4b5765f19f0f7436630c12a3c30e1515c2745f679",
   "artifact_hashes": {
-    "codemap.json": "50ede6b1ef3374f3ee4938233d4b0103fba367060e72cc1f3db71a8fbb292bae",
-    "codemap.md": "b24efd939fc02e3677f1a38799c915cef1218ac7a6f70f8f3d913114cf0a66ca",
-    "codemap.html": "d2d4afa7e997b08e1111d8b364296418a05528b22064a18e0e4c09d0ddfc97a3"
+    "codemap.json": "3f3dc101dfe8b81b4fce9482c63f12729c0d9fdda73c6684c77b387c92d6a481",
+    "codemap.md": "73d9c9c28de768aaaac9369a0dbc1ac2fb9c0598670afe4989883d7387d87d68",
+    "codemap.html": "13fc18ad941d05fe4289cd01728f1c1b43bd1ae9d5d28c47c68c17a501077ea2"
   }
 }
