@@ -1,13 +1,13 @@
 {
   "schema_version": 2,
-  "generated_at": "2026-09-07T03:27:17Z",
-  "generated_from_commit": "874c69d50f39d0afcef3a6ad6a04bc65244e584a",
+  "generated_at": "2026-10-26T04:43:33Z",
+  "generated_from_commit": "345e48d2ded07facd688d62ed2e84f2c626c34ee",
   "scope": [
     "."
   ],
   "analysis": {
     "version": "syntax-1",
-    "digest": "3c79d1c345c40f78e72d86e76fcdb0c240c137eb03778015ce78f994b43e3ccf"
+    "digest": "aac5588c813568478eb34b9cb090e19685ad183efe6d8b3496f261834a7c0f44"
   },
   "inventory": {
     "policy": {
@@ -61,8 +61,8 @@
         "path": "package.json",
         "origin": "tracked",
         "state": "present",
-        "digest": "ea58df6dae694bed7f117ae216ebee1a915f4ef4c73735f494acac57b328a829",
-        "size": 7065
+        "digest": "2ae46199f9ada245d2c3a54a01bff8ab17fc62686160f16da06fbd3fc454c498",
+        "size": 7060
       },
       {
         "path": "scripts/check-media.mjs",
@@ -87,7 +87,7 @@
       },
       {
         "path": "scripts/release-artifact.mjs",
-        "origin": "untracked",
+        "origin": "tracked",
         "state": "present",
         "digest": "22d3b41f2b8372e224466db0a33ae9686e4b99ee8fa3b45e713a20207e51ea69",
         "size": 5219
@@ -145,8 +145,8 @@
         "path": "src/extension.ts",
         "origin": "tracked",
         "state": "present",
-        "digest": "eddfe29147df04a8474038cd9503ef6264721bb35da525c016aa295d7b341c4a",
-        "size": 9863
+        "digest": "3db3d001659bea354344f2c84b43cb3becd9a314139d3b9969aebe7abb350dc0",
+        "size": 10034
       },
       {
         "path": "src/fileGlob.test.ts",
@@ -173,8 +173,8 @@
         "path": "src/load.ts",
         "origin": "tracked",
         "state": "present",
-        "digest": "b1f34616f68c642f8ef345429b6136e93074f8ed0a208d1b3c7ce5b99acffc2c",
-        "size": 12311
+        "digest": "201dbad550ba57ed72060eaaebf2a0fdd112041ba5af2805fcd25b192195c4d3",
+        "size": 12016
       },
       {
         "path": "src/log.ts",
@@ -236,8 +236,8 @@
         "path": "src/panel.ts",
         "origin": "tracked",
         "state": "present",
-        "digest": "543b5b0d35baf931d1a06bd74bbadf3f420aed26669a58137c0cae1b738660d8",
-        "size": 6199
+        "digest": "2d4a4e07cad59739f9483e2961a6b317dd15a6de86b3e7bb4e57cc551705d2b9",
+        "size": 6393
       },
       {
         "path": "src/panelState.test.ts",
@@ -276,7 +276,7 @@
       },
       {
         "path": "src/recentTasks.ts",
-        "origin": "untracked",
+        "origin": "tracked",
         "state": "present",
         "digest": "85e6b41a1f0e46eac774851e349e686a649c48937c5cb7faa3d40ad6a4fb5b89",
         "size": 1515
@@ -318,7 +318,7 @@
       },
       {
         "path": "src/settingsActions.ts",
-        "origin": "untracked",
+        "origin": "tracked",
         "state": "present",
         "digest": "2d9238bfb5bac72260aefe2e61375e542b733efe4b0123de61798144ac6b8ab1",
         "size": 2810
@@ -436,7 +436,7 @@
         "size": 375
       }
     ],
-    "digest": "41b3988959db1b8d7418469b747d2e7c9b5c7ea3ca58bbfbba6121f4260e9698"
+    "digest": "95de68db8d2c7f237cf033dbf7b21092da3e79b58d0156b5988f3e763593ed60"
   },
   "coverage": {
     "discovered_files": 89,
@@ -1869,7 +1869,7 @@
       },
       {
         "path": "src/panel.ts",
-        "line": 140,
+        "line": 146,
         "reference": "TASK_CODICONS",
         "reason": "object-member-call-not-resolved"
       },
@@ -2909,17 +2909,17 @@
             "start_line": 2,
             "end_line": 2,
             "extractor": "tree-sitter-typescript",
-            "source_digest": "b1f34616f68c642f8ef345429b6136e93074f8ed0a208d1b3c7ce5b99acffc2c",
+            "source_digest": "201dbad550ba57ed72060eaaebf2a0fdd112041ba5af2805fcd25b192195c4d3",
             "kind": "import",
             "resolved_target": "external:javascript:jsonc-parser"
           },
           {
             "path": "src/load.ts",
-            "symbol": "parse(stripBom(text), errors, {\r\n    allowTrailingComma: true,\r\n    disallowComments: false,\r\n  })",
+            "symbol": "parse(stripBom(text), errors, {\n    allowTrailingComma: true,\n    disallowComments: false,\n  })",
             "start_line": 134,
             "end_line": 137,
             "extractor": "tree-sitter-typescript",
-            "source_digest": "b1f34616f68c642f8ef345429b6136e93074f8ed0a208d1b3c7ce5b99acffc2c",
+            "source_digest": "201dbad550ba57ed72060eaaebf2a0fdd112041ba5af2805fcd25b192195c4d3",
             "kind": "call",
             "resolved_target": "external:javascript:jsonc-parser",
             "target_symbol": "parse"
@@ -3756,7 +3756,7 @@
             "start_line": 1,
             "end_line": 1,
             "extractor": "tree-sitter-typescript",
-            "source_digest": "543b5b0d35baf931d1a06bd74bbadf3f420aed26669a58137c0cae1b738660d8",
+            "source_digest": "2d4a4e07cad59739f9483e2961a6b317dd15a6de86b3e7bb4e57cc551705d2b9",
             "kind": "import",
             "resolved_target": "external:javascript:node:crypto"
           },
@@ -4119,7 +4119,7 @@
             "start_line": 1,
             "end_line": 1,
             "extractor": "tree-sitter-typescript",
-            "source_digest": "b1f34616f68c642f8ef345429b6136e93074f8ed0a208d1b3c7ce5b99acffc2c",
+            "source_digest": "201dbad550ba57ed72060eaaebf2a0fdd112041ba5af2805fcd25b192195c4d3",
             "kind": "import",
             "resolved_target": "external:javascript:node:os"
           },
@@ -5900,7 +5900,7 @@
             "start_line": 1,
             "end_line": 1,
             "extractor": "tree-sitter-typescript",
-            "source_digest": "eddfe29147df04a8474038cd9503ef6264721bb35da525c016aa295d7b341c4a",
+            "source_digest": "3db3d001659bea354344f2c84b43cb3becd9a314139d3b9969aebe7abb350dc0",
             "kind": "import",
             "resolved_target": "external:javascript:vscode"
           },
@@ -5910,7 +5910,7 @@
             "start_line": 3,
             "end_line": 3,
             "extractor": "tree-sitter-typescript",
-            "source_digest": "b1f34616f68c642f8ef345429b6136e93074f8ed0a208d1b3c7ce5b99acffc2c",
+            "source_digest": "201dbad550ba57ed72060eaaebf2a0fdd112041ba5af2805fcd25b192195c4d3",
             "kind": "import",
             "resolved_target": "external:javascript:vscode"
           },
@@ -6069,7 +6069,7 @@
             "start_line": 1,
             "end_line": 1,
             "extractor": "json-manifest",
-            "source_digest": "ea58df6dae694bed7f117ae216ebee1a915f4ef4c73735f494acac57b328a829",
+            "source_digest": "2ae46199f9ada245d2c3a54a01bff8ab17fc62686160f16da06fbd3fc454c498",
             "kind": "file"
           }
         ]
@@ -7738,7 +7738,7 @@
             "start_line": 47,
             "end_line": 47,
             "extractor": "tree-sitter-typescript",
-            "source_digest": "eddfe29147df04a8474038cd9503ef6264721bb35da525c016aa295d7b341c4a",
+            "source_digest": "3db3d001659bea354344f2c84b43cb3becd9a314139d3b9969aebe7abb350dc0",
             "kind": "definition"
           },
           {
@@ -7747,7 +7747,7 @@
             "start_line": 48,
             "end_line": 48,
             "extractor": "tree-sitter-typescript",
-            "source_digest": "eddfe29147df04a8474038cd9503ef6264721bb35da525c016aa295d7b341c4a",
+            "source_digest": "3db3d001659bea354344f2c84b43cb3becd9a314139d3b9969aebe7abb350dc0",
             "kind": "definition"
           },
           {
@@ -7756,7 +7756,7 @@
             "start_line": 49,
             "end_line": 49,
             "extractor": "tree-sitter-typescript",
-            "source_digest": "eddfe29147df04a8474038cd9503ef6264721bb35da525c016aa295d7b341c4a",
+            "source_digest": "3db3d001659bea354344f2c84b43cb3becd9a314139d3b9969aebe7abb350dc0",
             "kind": "definition"
           }
         ]
@@ -8313,7 +8313,7 @@
             "start_line": 27,
             "end_line": 27,
             "extractor": "tree-sitter-typescript",
-            "source_digest": "b1f34616f68c642f8ef345429b6136e93074f8ed0a208d1b3c7ce5b99acffc2c",
+            "source_digest": "201dbad550ba57ed72060eaaebf2a0fdd112041ba5af2805fcd25b192195c4d3",
             "kind": "definition"
           },
           {
@@ -8322,7 +8322,7 @@
             "start_line": 34,
             "end_line": 34,
             "extractor": "tree-sitter-typescript",
-            "source_digest": "b1f34616f68c642f8ef345429b6136e93074f8ed0a208d1b3c7ce5b99acffc2c",
+            "source_digest": "201dbad550ba57ed72060eaaebf2a0fdd112041ba5af2805fcd25b192195c4d3",
             "kind": "definition"
           },
           {
@@ -8331,7 +8331,7 @@
             "start_line": 41,
             "end_line": 41,
             "extractor": "tree-sitter-typescript",
-            "source_digest": "b1f34616f68c642f8ef345429b6136e93074f8ed0a208d1b3c7ce5b99acffc2c",
+            "source_digest": "201dbad550ba57ed72060eaaebf2a0fdd112041ba5af2805fcd25b192195c4d3",
             "kind": "definition"
           }
         ]
@@ -9758,7 +9758,7 @@
             "start_line": 7,
             "end_line": 7,
             "extractor": "tree-sitter-typescript",
-            "source_digest": "543b5b0d35baf931d1a06bd74bbadf3f420aed26669a58137c0cae1b738660d8",
+            "source_digest": "2d4a4e07cad59739f9483e2961a6b317dd15a6de86b3e7bb4e57cc551705d2b9",
             "kind": "definition"
           },
           {
@@ -9767,16 +9767,16 @@
             "start_line": 9,
             "end_line": 9,
             "extractor": "tree-sitter-typescript",
-            "source_digest": "543b5b0d35baf931d1a06bd74bbadf3f420aed26669a58137c0cae1b738660d8",
+            "source_digest": "2d4a4e07cad59739f9483e2961a6b317dd15a6de86b3e7bb4e57cc551705d2b9",
             "kind": "definition"
           },
           {
             "path": "src/panel.ts",
             "symbol": "postPanelState",
-            "start_line": 39,
-            "end_line": 39,
+            "start_line": 45,
+            "end_line": 45,
             "extractor": "tree-sitter-typescript",
-            "source_digest": "543b5b0d35baf931d1a06bd74bbadf3f420aed26669a58137c0cae1b738660d8",
+            "source_digest": "2d4a4e07cad59739f9483e2961a6b317dd15a6de86b3e7bb4e57cc551705d2b9",
             "kind": "definition"
           }
         ]
@@ -14465,7 +14465,7 @@
             "start_line": 1,
             "end_line": 1,
             "extractor": "tree-sitter-typescript",
-            "source_digest": "eddfe29147df04a8474038cd9503ef6264721bb35da525c016aa295d7b341c4a",
+            "source_digest": "3db3d001659bea354344f2c84b43cb3becd9a314139d3b9969aebe7abb350dc0",
             "kind": "import",
             "resolved_target": "external:javascript:vscode"
           }
@@ -14488,7 +14488,7 @@
             "start_line": 121,
             "end_line": 121,
             "extractor": "tree-sitter-typescript",
-            "source_digest": "eddfe29147df04a8474038cd9503ef6264721bb35da525c016aa295d7b341c4a",
+            "source_digest": "3db3d001659bea354344f2c84b43cb3becd9a314139d3b9969aebe7abb350dc0",
             "kind": "call",
             "resolved_target": "src/emoji.ts",
             "target_symbol": "splitLabelEmoji"
@@ -14499,7 +14499,7 @@
             "start_line": 122,
             "end_line": 122,
             "extractor": "tree-sitter-typescript",
-            "source_digest": "eddfe29147df04a8474038cd9503ef6264721bb35da525c016aa295d7b341c4a",
+            "source_digest": "3db3d001659bea354344f2c84b43cb3becd9a314139d3b9969aebe7abb350dc0",
             "kind": "call",
             "resolved_target": "src/emoji.ts",
             "target_symbol": "joinLabelEmoji"
@@ -14510,7 +14510,7 @@
             "start_line": 128,
             "end_line": 128,
             "extractor": "tree-sitter-typescript",
-            "source_digest": "eddfe29147df04a8474038cd9503ef6264721bb35da525c016aa295d7b341c4a",
+            "source_digest": "3db3d001659bea354344f2c84b43cb3becd9a314139d3b9969aebe7abb350dc0",
             "kind": "call",
             "resolved_target": "src/emoji.ts",
             "target_symbol": "joinLabelEmoji"
@@ -14534,7 +14534,7 @@
             "start_line": 11,
             "end_line": 11,
             "extractor": "tree-sitter-typescript",
-            "source_digest": "eddfe29147df04a8474038cd9503ef6264721bb35da525c016aa295d7b341c4a",
+            "source_digest": "3db3d001659bea354344f2c84b43cb3becd9a314139d3b9969aebe7abb350dc0",
             "kind": "import",
             "resolved_target": "src/emoji.ts"
           }
@@ -14557,7 +14557,7 @@
             "start_line": 60,
             "end_line": 60,
             "extractor": "tree-sitter-typescript",
-            "source_digest": "eddfe29147df04a8474038cd9503ef6264721bb35da525c016aa295d7b341c4a",
+            "source_digest": "3db3d001659bea354344f2c84b43cb3becd9a314139d3b9969aebe7abb350dc0",
             "kind": "call",
             "resolved_target": "src/load.ts",
             "target_symbol": "rememberSnapshot"
@@ -14568,7 +14568,7 @@
             "start_line": 84,
             "end_line": 84,
             "extractor": "tree-sitter-typescript",
-            "source_digest": "eddfe29147df04a8474038cd9503ef6264721bb35da525c016aa295d7b341c4a",
+            "source_digest": "3db3d001659bea354344f2c84b43cb3becd9a314139d3b9969aebe7abb350dc0",
             "kind": "call",
             "resolved_target": "src/load.ts",
             "target_symbol": "panelState"
@@ -14579,7 +14579,7 @@
             "start_line": 120,
             "end_line": 120,
             "extractor": "tree-sitter-typescript",
-            "source_digest": "eddfe29147df04a8474038cd9503ef6264721bb35da525c016aa295d7b341c4a",
+            "source_digest": "3db3d001659bea354344f2c84b43cb3becd9a314139d3b9969aebe7abb350dc0",
             "kind": "call",
             "resolved_target": "src/load.ts",
             "target_symbol": "panelState"
@@ -14603,7 +14603,7 @@
             "start_line": 2,
             "end_line": 10,
             "extractor": "tree-sitter-typescript",
-            "source_digest": "eddfe29147df04a8474038cd9503ef6264721bb35da525c016aa295d7b341c4a",
+            "source_digest": "3db3d001659bea354344f2c84b43cb3becd9a314139d3b9969aebe7abb350dc0",
             "kind": "import",
             "resolved_target": "src/load.ts"
           }
@@ -14626,7 +14626,7 @@
             "start_line": 67,
             "end_line": 67,
             "extractor": "tree-sitter-typescript",
-            "source_digest": "eddfe29147df04a8474038cd9503ef6264721bb35da525c016aa295d7b341c4a",
+            "source_digest": "3db3d001659bea354344f2c84b43cb3becd9a314139d3b9969aebe7abb350dc0",
             "kind": "call",
             "resolved_target": "src/log.ts",
             "target_symbol": "log"
@@ -14637,7 +14637,7 @@
             "start_line": 153,
             "end_line": 153,
             "extractor": "tree-sitter-typescript",
-            "source_digest": "eddfe29147df04a8474038cd9503ef6264721bb35da525c016aa295d7b341c4a",
+            "source_digest": "3db3d001659bea354344f2c84b43cb3becd9a314139d3b9969aebe7abb350dc0",
             "kind": "call",
             "resolved_target": "src/log.ts",
             "target_symbol": "log"
@@ -14645,10 +14645,10 @@
           {
             "path": "src/extension.ts",
             "symbol": "log(\"Ignored invalid settings panel message.\")",
-            "start_line": 161,
-            "end_line": 161,
+            "start_line": 162,
+            "end_line": 162,
             "extractor": "tree-sitter-typescript",
-            "source_digest": "eddfe29147df04a8474038cd9503ef6264721bb35da525c016aa295d7b341c4a",
+            "source_digest": "3db3d001659bea354344f2c84b43cb3becd9a314139d3b9969aebe7abb350dc0",
             "kind": "call",
             "resolved_target": "src/log.ts",
             "target_symbol": "log"
@@ -14672,7 +14672,7 @@
             "start_line": 12,
             "end_line": 12,
             "extractor": "tree-sitter-typescript",
-            "source_digest": "eddfe29147df04a8474038cd9503ef6264721bb35da525c016aa295d7b341c4a",
+            "source_digest": "3db3d001659bea354344f2c84b43cb3becd9a314139d3b9969aebe7abb350dc0",
             "kind": "import",
             "resolved_target": "src/log.ts"
           }
@@ -14692,10 +14692,10 @@
           {
             "path": "src/extension.ts",
             "symbol": "sameTask(item.task, event.execution.task)",
-            "start_line": 236,
-            "end_line": 236,
+            "start_line": 237,
+            "end_line": 237,
             "extractor": "tree-sitter-typescript",
-            "source_digest": "eddfe29147df04a8474038cd9503ef6264721bb35da525c016aa295d7b341c4a",
+            "source_digest": "3db3d001659bea354344f2c84b43cb3becd9a314139d3b9969aebe7abb350dc0",
             "kind": "call",
             "resolved_target": "src/match.ts",
             "target_symbol": "sameTask"
@@ -14719,7 +14719,7 @@
             "start_line": 30,
             "end_line": 30,
             "extractor": "tree-sitter-typescript",
-            "source_digest": "eddfe29147df04a8474038cd9503ef6264721bb35da525c016aa295d7b341c4a",
+            "source_digest": "3db3d001659bea354344f2c84b43cb3becd9a314139d3b9969aebe7abb350dc0",
             "kind": "import",
             "resolved_target": "src/match.ts"
           }
@@ -14742,7 +14742,7 @@
             "start_line": 20,
             "end_line": 20,
             "extractor": "tree-sitter-typescript",
-            "source_digest": "eddfe29147df04a8474038cd9503ef6264721bb35da525c016aa295d7b341c4a",
+            "source_digest": "3db3d001659bea354344f2c84b43cb3becd9a314139d3b9969aebe7abb350dc0",
             "kind": "import",
             "resolved_target": "src/overflowButton.ts"
           }
@@ -14765,7 +14765,7 @@
             "start_line": 62,
             "end_line": 62,
             "extractor": "tree-sitter-typescript",
-            "source_digest": "eddfe29147df04a8474038cd9503ef6264721bb35da525c016aa295d7b341c4a",
+            "source_digest": "3db3d001659bea354344f2c84b43cb3becd9a314139d3b9969aebe7abb350dc0",
             "kind": "call",
             "resolved_target": "src/panel.ts",
             "target_symbol": "postPanelState"
@@ -14776,7 +14776,7 @@
             "start_line": 84,
             "end_line": 84,
             "extractor": "tree-sitter-typescript",
-            "source_digest": "eddfe29147df04a8474038cd9503ef6264721bb35da525c016aa295d7b341c4a",
+            "source_digest": "3db3d001659bea354344f2c84b43cb3becd9a314139d3b9969aebe7abb350dc0",
             "kind": "call",
             "resolved_target": "src/panel.ts",
             "target_symbol": "postPanelState"
@@ -14784,10 +14784,10 @@
           {
             "path": "src/extension.ts",
             "symbol": "openSettingsPanel(context, panelState, receivePanelMessage)",
-            "start_line": 224,
-            "end_line": 224,
+            "start_line": 225,
+            "end_line": 225,
             "extractor": "tree-sitter-typescript",
-            "source_digest": "eddfe29147df04a8474038cd9503ef6264721bb35da525c016aa295d7b341c4a",
+            "source_digest": "3db3d001659bea354344f2c84b43cb3becd9a314139d3b9969aebe7abb350dc0",
             "kind": "call",
             "resolved_target": "src/panel.ts",
             "target_symbol": "openSettingsPanel"
@@ -14811,7 +14811,7 @@
             "start_line": 13,
             "end_line": 13,
             "extractor": "tree-sitter-typescript",
-            "source_digest": "eddfe29147df04a8474038cd9503ef6264721bb35da525c016aa295d7b341c4a",
+            "source_digest": "3db3d001659bea354344f2c84b43cb3becd9a314139d3b9969aebe7abb350dc0",
             "kind": "import",
             "resolved_target": "src/panel.ts"
           }
@@ -14831,10 +14831,10 @@
           {
             "path": "src/extension.ts",
             "symbol": "parsePanelMessage(value)",
-            "start_line": 159,
-            "end_line": 159,
+            "start_line": 160,
+            "end_line": 160,
             "extractor": "tree-sitter-typescript",
-            "source_digest": "eddfe29147df04a8474038cd9503ef6264721bb35da525c016aa295d7b341c4a",
+            "source_digest": "3db3d001659bea354344f2c84b43cb3becd9a314139d3b9969aebe7abb350dc0",
             "kind": "call",
             "resolved_target": "src/panelState.ts",
             "target_symbol": "parsePanelMessage"
@@ -14842,10 +14842,10 @@
           {
             "path": "src/extension.ts",
             "symbol": "isPanelMessageForKnownTask(message, panelState().tasks)",
-            "start_line": 164,
-            "end_line": 164,
+            "start_line": 165,
+            "end_line": 165,
             "extractor": "tree-sitter-typescript",
-            "source_digest": "eddfe29147df04a8474038cd9503ef6264721bb35da525c016aa295d7b341c4a",
+            "source_digest": "3db3d001659bea354344f2c84b43cb3becd9a314139d3b9969aebe7abb350dc0",
             "kind": "call",
             "resolved_target": "src/panelState.ts",
             "target_symbol": "isPanelMessageForKnownTask"
@@ -14869,7 +14869,7 @@
             "start_line": 14,
             "end_line": 19,
             "extractor": "tree-sitter-typescript",
-            "source_digest": "eddfe29147df04a8474038cd9503ef6264721bb35da525c016aa295d7b341c4a",
+            "source_digest": "3db3d001659bea354344f2c84b43cb3becd9a314139d3b9969aebe7abb350dc0",
             "kind": "import",
             "resolved_target": "src/panelState.ts"
           }
@@ -14892,7 +14892,7 @@
             "start_line": 87,
             "end_line": 87,
             "extractor": "tree-sitter-typescript",
-            "source_digest": "eddfe29147df04a8474038cd9503ef6264721bb35da525c016aa295d7b341c4a",
+            "source_digest": "3db3d001659bea354344f2c84b43cb3becd9a314139d3b9969aebe7abb350dc0",
             "kind": "call",
             "resolved_target": "src/persist.ts",
             "target_symbol": "updateStatusbarSetting"
@@ -14903,7 +14903,7 @@
             "start_line": 90,
             "end_line": 90,
             "extractor": "tree-sitter-typescript",
-            "source_digest": "eddfe29147df04a8474038cd9503ef6264721bb35da525c016aa295d7b341c4a",
+            "source_digest": "3db3d001659bea354344f2c84b43cb3becd9a314139d3b9969aebe7abb350dc0",
             "kind": "call",
             "resolved_target": "src/persist.ts",
             "target_symbol": "updateStatusbarSetting"
@@ -14914,7 +14914,7 @@
             "start_line": 93,
             "end_line": 93,
             "extractor": "tree-sitter-typescript",
-            "source_digest": "eddfe29147df04a8474038cd9503ef6264721bb35da525c016aa295d7b341c4a",
+            "source_digest": "3db3d001659bea354344f2c84b43cb3becd9a314139d3b9969aebe7abb350dc0",
             "kind": "call",
             "resolved_target": "src/persist.ts",
             "target_symbol": "updateStatusbarSetting"
@@ -14938,7 +14938,7 @@
             "start_line": 21,
             "end_line": 27,
             "extractor": "tree-sitter-typescript",
-            "source_digest": "eddfe29147df04a8474038cd9503ef6264721bb35da525c016aa295d7b341c4a",
+            "source_digest": "3db3d001659bea354344f2c84b43cb3becd9a314139d3b9969aebe7abb350dc0",
             "kind": "import",
             "resolved_target": "src/persist.ts"
           }
@@ -14961,7 +14961,7 @@
             "start_line": 29,
             "end_line": 29,
             "extractor": "tree-sitter-typescript",
-            "source_digest": "eddfe29147df04a8474038cd9503ef6264721bb35da525c016aa295d7b341c4a",
+            "source_digest": "3db3d001659bea354344f2c84b43cb3becd9a314139d3b9969aebe7abb350dc0",
             "kind": "import",
             "resolved_target": "src/recentTasks.ts"
           }
@@ -14984,7 +14984,7 @@
             "start_line": 28,
             "end_line": 28,
             "extractor": "tree-sitter-typescript",
-            "source_digest": "eddfe29147df04a8474038cd9503ef6264721bb35da525c016aa295d7b341c4a",
+            "source_digest": "3db3d001659bea354344f2c84b43cb3becd9a314139d3b9969aebe7abb350dc0",
             "kind": "import",
             "resolved_target": "src/refreshCoordinator.ts"
           }
@@ -15007,7 +15007,7 @@
             "start_line": 61,
             "end_line": 61,
             "extractor": "tree-sitter-typescript",
-            "source_digest": "eddfe29147df04a8474038cd9503ef6264721bb35da525c016aa295d7b341c4a",
+            "source_digest": "3db3d001659bea354344f2c84b43cb3becd9a314139d3b9969aebe7abb350dc0",
             "kind": "call",
             "resolved_target": "src/statusBar.ts",
             "target_symbol": "syncStatusBar"
@@ -15015,10 +15015,10 @@
           {
             "path": "src/extension.ts",
             "symbol": "showTaskMenu(recentTasks.keys)",
-            "start_line": 212,
-            "end_line": 212,
+            "start_line": 213,
+            "end_line": 213,
             "extractor": "tree-sitter-typescript",
-            "source_digest": "eddfe29147df04a8474038cd9503ef6264721bb35da525c016aa295d7b341c4a",
+            "source_digest": "3db3d001659bea354344f2c84b43cb3becd9a314139d3b9969aebe7abb350dc0",
             "kind": "call",
             "resolved_target": "src/statusBar.ts",
             "target_symbol": "showTaskMenu"
@@ -15026,10 +15026,10 @@
           {
             "path": "src/extension.ts",
             "symbol": "applyRunningState(\n        event.execution.task,\n        items,\n        isTaskRunning(event.execution.task, runningTasks()),\n      )",
-            "start_line": 258,
-            "end_line": 262,
+            "start_line": 260,
+            "end_line": 264,
             "extractor": "tree-sitter-typescript",
-            "source_digest": "eddfe29147df04a8474038cd9503ef6264721bb35da525c016aa295d7b341c4a",
+            "source_digest": "3db3d001659bea354344f2c84b43cb3becd9a314139d3b9969aebe7abb350dc0",
             "kind": "call",
             "resolved_target": "src/statusBar.ts",
             "target_symbol": "applyRunningState"
@@ -15053,7 +15053,7 @@
             "start_line": 37,
             "end_line": 45,
             "extractor": "tree-sitter-typescript",
-            "source_digest": "eddfe29147df04a8474038cd9503ef6264721bb35da525c016aa295d7b341c4a",
+            "source_digest": "3db3d001659bea354344f2c84b43cb3becd9a314139d3b9969aebe7abb350dc0",
             "kind": "import",
             "resolved_target": "src/statusBar.ts"
           }
@@ -15073,10 +15073,10 @@
           {
             "path": "src/extension.ts",
             "symbol": "runOrFocusTask(task)",
-            "start_line": 206,
-            "end_line": 206,
+            "start_line": 207,
+            "end_line": 207,
             "extractor": "tree-sitter-typescript",
-            "source_digest": "eddfe29147df04a8474038cd9503ef6264721bb35da525c016aa295d7b341c4a",
+            "source_digest": "3db3d001659bea354344f2c84b43cb3becd9a314139d3b9969aebe7abb350dc0",
             "kind": "call",
             "resolved_target": "src/taskActions.ts",
             "target_symbol": "runOrFocusTask"
@@ -15084,10 +15084,10 @@
           {
             "path": "src/extension.ts",
             "symbol": "runOrFocusTask(value.task)",
-            "start_line": 216,
-            "end_line": 216,
+            "start_line": 217,
+            "end_line": 217,
             "extractor": "tree-sitter-typescript",
-            "source_digest": "eddfe29147df04a8474038cd9503ef6264721bb35da525c016aa295d7b341c4a",
+            "source_digest": "3db3d001659bea354344f2c84b43cb3becd9a314139d3b9969aebe7abb350dc0",
             "kind": "call",
             "resolved_target": "src/taskActions.ts",
             "target_symbol": "runOrFocusTask"
@@ -15095,10 +15095,10 @@
           {
             "path": "src/extension.ts",
             "symbol": "controlExecution(value.execution, value.restart)",
-            "start_line": 218,
-            "end_line": 218,
+            "start_line": 219,
+            "end_line": 219,
             "extractor": "tree-sitter-typescript",
-            "source_digest": "eddfe29147df04a8474038cd9503ef6264721bb35da525c016aa295d7b341c4a",
+            "source_digest": "3db3d001659bea354344f2c84b43cb3becd9a314139d3b9969aebe7abb350dc0",
             "kind": "call",
             "resolved_target": "src/taskActions.ts",
             "target_symbol": "controlExecution"
@@ -15122,7 +15122,7 @@
             "start_line": 31,
             "end_line": 36,
             "extractor": "tree-sitter-typescript",
-            "source_digest": "eddfe29147df04a8474038cd9503ef6264721bb35da525c016aa295d7b341c4a",
+            "source_digest": "3db3d001659bea354344f2c84b43cb3becd9a314139d3b9969aebe7abb350dc0",
             "kind": "import",
             "resolved_target": "src/taskActions.ts"
           }
@@ -15302,11 +15302,11 @@
         "locations": [
           {
             "path": "src/load.ts",
-            "symbol": "parse(stripBom(text), errors, {\r\n    allowTrailingComma: true,\r\n    disallowComments: false,\r\n  })",
+            "symbol": "parse(stripBom(text), errors, {\n    allowTrailingComma: true,\n    disallowComments: false,\n  })",
             "start_line": 134,
             "end_line": 137,
             "extractor": "tree-sitter-typescript",
-            "source_digest": "b1f34616f68c642f8ef345429b6136e93074f8ed0a208d1b3c7ce5b99acffc2c",
+            "source_digest": "201dbad550ba57ed72060eaaebf2a0fdd112041ba5af2805fcd25b192195c4d3",
             "kind": "call",
             "resolved_target": "external:javascript:jsonc-parser",
             "target_symbol": "parse"
@@ -15330,7 +15330,7 @@
             "start_line": 2,
             "end_line": 2,
             "extractor": "tree-sitter-typescript",
-            "source_digest": "b1f34616f68c642f8ef345429b6136e93074f8ed0a208d1b3c7ce5b99acffc2c",
+            "source_digest": "201dbad550ba57ed72060eaaebf2a0fdd112041ba5af2805fcd25b192195c4d3",
             "kind": "import",
             "resolved_target": "external:javascript:jsonc-parser"
           }
@@ -15353,7 +15353,7 @@
             "start_line": 1,
             "end_line": 1,
             "extractor": "tree-sitter-typescript",
-            "source_digest": "b1f34616f68c642f8ef345429b6136e93074f8ed0a208d1b3c7ce5b99acffc2c",
+            "source_digest": "201dbad550ba57ed72060eaaebf2a0fdd112041ba5af2805fcd25b192195c4d3",
             "kind": "import",
             "resolved_target": "external:javascript:node:os"
           }
@@ -15376,7 +15376,7 @@
             "start_line": 3,
             "end_line": 3,
             "extractor": "tree-sitter-typescript",
-            "source_digest": "b1f34616f68c642f8ef345429b6136e93074f8ed0a208d1b3c7ce5b99acffc2c",
+            "source_digest": "201dbad550ba57ed72060eaaebf2a0fdd112041ba5af2805fcd25b192195c4d3",
             "kind": "import",
             "resolved_target": "external:javascript:vscode"
           }
@@ -15399,7 +15399,7 @@
             "start_line": 78,
             "end_line": 78,
             "extractor": "tree-sitter-typescript",
-            "source_digest": "b1f34616f68c642f8ef345429b6136e93074f8ed0a208d1b3c7ce5b99acffc2c",
+            "source_digest": "201dbad550ba57ed72060eaaebf2a0fdd112041ba5af2805fcd25b192195c4d3",
             "kind": "call",
             "resolved_target": "src/attributes.ts",
             "target_symbol": "parseColor"
@@ -15410,7 +15410,7 @@
             "start_line": 84,
             "end_line": 84,
             "extractor": "tree-sitter-typescript",
-            "source_digest": "b1f34616f68c642f8ef345429b6136e93074f8ed0a208d1b3c7ce5b99acffc2c",
+            "source_digest": "201dbad550ba57ed72060eaaebf2a0fdd112041ba5af2805fcd25b192195c4d3",
             "kind": "call",
             "resolved_target": "src/attributes.ts",
             "target_symbol": "parseColor"
@@ -15421,7 +15421,7 @@
             "start_line": 212,
             "end_line": 212,
             "extractor": "tree-sitter-typescript",
-            "source_digest": "b1f34616f68c642f8ef345429b6136e93074f8ed0a208d1b3c7ce5b99acffc2c",
+            "source_digest": "201dbad550ba57ed72060eaaebf2a0fdd112041ba5af2805fcd25b192195c4d3",
             "kind": "call",
             "resolved_target": "src/attributes.ts",
             "target_symbol": "statusBarOf"
@@ -15445,7 +15445,7 @@
             "start_line": 4,
             "end_line": 4,
             "extractor": "tree-sitter-typescript",
-            "source_digest": "b1f34616f68c642f8ef345429b6136e93074f8ed0a208d1b3c7ce5b99acffc2c",
+            "source_digest": "201dbad550ba57ed72060eaaebf2a0fdd112041ba5af2805fcd25b192195c4d3",
             "kind": "import",
             "resolved_target": "src/attributes.ts"
           }
@@ -15468,7 +15468,7 @@
             "start_line": 85,
             "end_line": 85,
             "extractor": "tree-sitter-typescript",
-            "source_digest": "b1f34616f68c642f8ef345429b6136e93074f8ed0a208d1b3c7ce5b99acffc2c",
+            "source_digest": "201dbad550ba57ed72060eaaebf2a0fdd112041ba5af2805fcd25b192195c4d3",
             "kind": "call",
             "resolved_target": "src/codicons.ts",
             "target_symbol": "parseCodiconId"
@@ -15492,7 +15492,7 @@
             "start_line": 6,
             "end_line": 6,
             "extractor": "tree-sitter-typescript",
-            "source_digest": "b1f34616f68c642f8ef345429b6136e93074f8ed0a208d1b3c7ce5b99acffc2c",
+            "source_digest": "201dbad550ba57ed72060eaaebf2a0fdd112041ba5af2805fcd25b192195c4d3",
             "kind": "import",
             "resolved_target": "src/codicons.ts"
           }
@@ -15515,7 +15515,7 @@
             "start_line": 220,
             "end_line": 220,
             "extractor": "tree-sitter-typescript",
-            "source_digest": "b1f34616f68c642f8ef345429b6136e93074f8ed0a208d1b3c7ce5b99acffc2c",
+            "source_digest": "201dbad550ba57ed72060eaaebf2a0fdd112041ba5af2805fcd25b192195c4d3",
             "kind": "call",
             "resolved_target": "src/emoji.ts",
             "target_symbol": "splitLabelEmoji"
@@ -15539,7 +15539,7 @@
             "start_line": 7,
             "end_line": 7,
             "extractor": "tree-sitter-typescript",
-            "source_digest": "b1f34616f68c642f8ef345429b6136e93074f8ed0a208d1b3c7ce5b99acffc2c",
+            "source_digest": "201dbad550ba57ed72060eaaebf2a0fdd112041ba5af2805fcd25b192195c4d3",
             "kind": "import",
             "resolved_target": "src/emoji.ts"
           }
@@ -15562,7 +15562,7 @@
             "start_line": 134,
             "end_line": 134,
             "extractor": "tree-sitter-typescript",
-            "source_digest": "b1f34616f68c642f8ef345429b6136e93074f8ed0a208d1b3c7ce5b99acffc2c",
+            "source_digest": "201dbad550ba57ed72060eaaebf2a0fdd112041ba5af2805fcd25b192195c4d3",
             "kind": "call",
             "resolved_target": "src/jsonc.ts",
             "target_symbol": "stripBom"
@@ -15586,7 +15586,7 @@
             "start_line": 8,
             "end_line": 8,
             "extractor": "tree-sitter-typescript",
-            "source_digest": "b1f34616f68c642f8ef345429b6136e93074f8ed0a208d1b3c7ce5b99acffc2c",
+            "source_digest": "201dbad550ba57ed72060eaaebf2a0fdd112041ba5af2805fcd25b192195c4d3",
             "kind": "import",
             "resolved_target": "src/jsonc.ts"
           }
@@ -15606,10 +15606,10 @@
           {
             "path": "src/load.ts",
             "symbol": "log(\"Configs: \" + expanded.length + \". Fetched workspace tasks: \" + fetched.length + \".\")",
-            "start_line": 303,
-            "end_line": 303,
+            "start_line": 304,
+            "end_line": 304,
             "extractor": "tree-sitter-typescript",
-            "source_digest": "b1f34616f68c642f8ef345429b6136e93074f8ed0a208d1b3c7ce5b99acffc2c",
+            "source_digest": "201dbad550ba57ed72060eaaebf2a0fdd112041ba5af2805fcd25b192195c4d3",
             "kind": "call",
             "resolved_target": "src/log.ts",
             "target_symbol": "log"
@@ -15617,10 +15617,10 @@
           {
             "path": "src/load.ts",
             "symbol": "log(problem)",
-            "start_line": 334,
-            "end_line": 334,
+            "start_line": 335,
+            "end_line": 335,
             "extractor": "tree-sitter-typescript",
-            "source_digest": "b1f34616f68c642f8ef345429b6136e93074f8ed0a208d1b3c7ce5b99acffc2c",
+            "source_digest": "201dbad550ba57ed72060eaaebf2a0fdd112041ba5af2805fcd25b192195c4d3",
             "kind": "call",
             "resolved_target": "src/log.ts",
             "target_symbol": "log"
@@ -15644,7 +15644,7 @@
             "start_line": 9,
             "end_line": 9,
             "extractor": "tree-sitter-typescript",
-            "source_digest": "b1f34616f68c642f8ef345429b6136e93074f8ed0a208d1b3c7ce5b99acffc2c",
+            "source_digest": "201dbad550ba57ed72060eaaebf2a0fdd112041ba5af2805fcd25b192195c4d3",
             "kind": "import",
             "resolved_target": "src/log.ts"
           }
@@ -15667,7 +15667,7 @@
             "start_line": 268,
             "end_line": 268,
             "extractor": "tree-sitter-typescript",
-            "source_digest": "b1f34616f68c642f8ef345429b6136e93074f8ed0a208d1b3c7ce5b99acffc2c",
+            "source_digest": "201dbad550ba57ed72060eaaebf2a0fdd112041ba5af2805fcd25b192195c4d3",
             "kind": "call",
             "resolved_target": "src/match.ts",
             "target_symbol": "isWorkspaceTask"
@@ -15678,18 +15678,18 @@
             "start_line": 285,
             "end_line": 285,
             "extractor": "tree-sitter-typescript",
-            "source_digest": "b1f34616f68c642f8ef345429b6136e93074f8ed0a208d1b3c7ce5b99acffc2c",
+            "source_digest": "201dbad550ba57ed72060eaaebf2a0fdd112041ba5af2805fcd25b192195c4d3",
             "kind": "call",
             "resolved_target": "src/match.ts",
             "target_symbol": "sameTask"
           },
           {
             "path": "src/load.ts",
-            "symbol": "matchTaskResult(available, sourceTask.config, {\r\n      workspaceFolderUri: sourceTask.identity.workspaceFolderUri || undefined,\r\n    })",
-            "start_line": 326,
-            "end_line": 328,
+            "symbol": "matchTaskResult(available, sourceTask.config, {\n      workspaceFolderUri: sourceTask.identity.workspaceFolderUri || undefined,\n    })",
+            "start_line": 327,
+            "end_line": 329,
             "extractor": "tree-sitter-typescript",
-            "source_digest": "b1f34616f68c642f8ef345429b6136e93074f8ed0a208d1b3c7ce5b99acffc2c",
+            "source_digest": "201dbad550ba57ed72060eaaebf2a0fdd112041ba5af2805fcd25b192195c4d3",
             "kind": "call",
             "resolved_target": "src/match.ts",
             "target_symbol": "matchTaskResult"
@@ -15713,7 +15713,7 @@
             "start_line": 10,
             "end_line": 10,
             "extractor": "tree-sitter-typescript",
-            "source_digest": "b1f34616f68c642f8ef345429b6136e93074f8ed0a208d1b3c7ce5b99acffc2c",
+            "source_digest": "201dbad550ba57ed72060eaaebf2a0fdd112041ba5af2805fcd25b192195c4d3",
             "kind": "import",
             "resolved_target": "src/match.ts"
           }
@@ -15736,7 +15736,7 @@
             "start_line": 165,
             "end_line": 165,
             "extractor": "tree-sitter-typescript",
-            "source_digest": "b1f34616f68c642f8ef345429b6136e93074f8ed0a208d1b3c7ce5b99acffc2c",
+            "source_digest": "201dbad550ba57ed72060eaaebf2a0fdd112041ba5af2805fcd25b192195c4d3",
             "kind": "call",
             "resolved_target": "src/merge.ts",
             "target_symbol": "asTasksFile"
@@ -15747,7 +15747,7 @@
             "start_line": 165,
             "end_line": 165,
             "extractor": "tree-sitter-typescript",
-            "source_digest": "b1f34616f68c642f8ef345429b6136e93074f8ed0a208d1b3c7ce5b99acffc2c",
+            "source_digest": "201dbad550ba57ed72060eaaebf2a0fdd112041ba5af2805fcd25b192195c4d3",
             "kind": "call",
             "resolved_target": "src/merge.ts",
             "target_symbol": "asTasksFile"
@@ -15758,7 +15758,7 @@
             "start_line": 166,
             "end_line": 166,
             "extractor": "tree-sitter-typescript",
-            "source_digest": "b1f34616f68c642f8ef345429b6136e93074f8ed0a208d1b3c7ce5b99acffc2c",
+            "source_digest": "201dbad550ba57ed72060eaaebf2a0fdd112041ba5af2805fcd25b192195c4d3",
             "kind": "call",
             "resolved_target": "src/merge.ts",
             "target_symbol": "indexedTasks"
@@ -15782,7 +15782,7 @@
             "start_line": 11,
             "end_line": 11,
             "extractor": "tree-sitter-typescript",
-            "source_digest": "b1f34616f68c642f8ef345429b6136e93074f8ed0a208d1b3c7ce5b99acffc2c",
+            "source_digest": "201dbad550ba57ed72060eaaebf2a0fdd112041ba5af2805fcd25b192195c4d3",
             "kind": "import",
             "resolved_target": "src/merge.ts"
           }
@@ -15805,7 +15805,7 @@
             "start_line": 5,
             "end_line": 5,
             "extractor": "tree-sitter-typescript",
-            "source_digest": "b1f34616f68c642f8ef345429b6136e93074f8ed0a208d1b3c7ce5b99acffc2c",
+            "source_digest": "201dbad550ba57ed72060eaaebf2a0fdd112041ba5af2805fcd25b192195c4d3",
             "kind": "import",
             "resolved_target": "src/overflowButton.ts"
           }
@@ -15828,7 +15828,7 @@
             "start_line": 12,
             "end_line": 12,
             "extractor": "tree-sitter-typescript",
-            "source_digest": "b1f34616f68c642f8ef345429b6136e93074f8ed0a208d1b3c7ce5b99acffc2c",
+            "source_digest": "201dbad550ba57ed72060eaaebf2a0fdd112041ba5af2805fcd25b192195c4d3",
             "kind": "import",
             "resolved_target": "src/panelState.ts"
           }
@@ -15851,7 +15851,7 @@
             "start_line": 260,
             "end_line": 260,
             "extractor": "tree-sitter-typescript",
-            "source_digest": "b1f34616f68c642f8ef345429b6136e93074f8ed0a208d1b3c7ce5b99acffc2c",
+            "source_digest": "201dbad550ba57ed72060eaaebf2a0fdd112041ba5af2805fcd25b192195c4d3",
             "kind": "call",
             "resolved_target": "src/stableJson.ts",
             "target_symbol": "stableJson"
@@ -15875,7 +15875,7 @@
             "start_line": 13,
             "end_line": 13,
             "extractor": "tree-sitter-typescript",
-            "source_digest": "b1f34616f68c642f8ef345429b6136e93074f8ed0a208d1b3c7ce5b99acffc2c",
+            "source_digest": "201dbad550ba57ed72060eaaebf2a0fdd112041ba5af2805fcd25b192195c4d3",
             "kind": "import",
             "resolved_target": "src/stableJson.ts"
           }
@@ -15894,11 +15894,11 @@
         "locations": [
           {
             "path": "src/load.ts",
-            "symbol": "createTaskSourceIdentity({\r\n        sourceUri: source.uri.toString(),\r\n        workspaceFolderUri: source.workspaceFolderUri?.toString(),\r\n        index: entry.index,\r\n        config,\r\n      })",
+            "symbol": "createTaskSourceIdentity({\n        sourceUri: source.uri.toString(),\n        workspaceFolderUri: source.workspaceFolderUri?.toString(),\n        index: entry.index,\n        config,\n      })",
             "start_line": 194,
             "end_line": 199,
             "extractor": "tree-sitter-typescript",
-            "source_digest": "b1f34616f68c642f8ef345429b6136e93074f8ed0a208d1b3c7ce5b99acffc2c",
+            "source_digest": "201dbad550ba57ed72060eaaebf2a0fdd112041ba5af2805fcd25b192195c4d3",
             "kind": "call",
             "resolved_target": "src/taskIdentity.ts",
             "target_symbol": "createTaskSourceIdentity"
@@ -15909,7 +15909,7 @@
             "start_line": 203,
             "end_line": 203,
             "extractor": "tree-sitter-typescript",
-            "source_digest": "b1f34616f68c642f8ef345429b6136e93074f8ed0a208d1b3c7ce5b99acffc2c",
+            "source_digest": "201dbad550ba57ed72060eaaebf2a0fdd112041ba5af2805fcd25b192195c4d3",
             "kind": "call",
             "resolved_target": "src/taskIdentity.ts",
             "target_symbol": "taskIdentityKey"
@@ -15917,10 +15917,10 @@
           {
             "path": "src/load.ts",
             "symbol": "parseTaskIdentityKey(task.key)",
-            "start_line": 317,
-            "end_line": 317,
+            "start_line": 318,
+            "end_line": 318,
             "extractor": "tree-sitter-typescript",
-            "source_digest": "b1f34616f68c642f8ef345429b6136e93074f8ed0a208d1b3c7ce5b99acffc2c",
+            "source_digest": "201dbad550ba57ed72060eaaebf2a0fdd112041ba5af2805fcd25b192195c4d3",
             "kind": "call",
             "resolved_target": "src/taskIdentity.ts",
             "target_symbol": "parseTaskIdentityKey"
@@ -15940,11 +15940,11 @@
         "locations": [
           {
             "path": "src/load.ts",
-            "symbol": "import {\r\n  createTaskSourceIdentity,\r\n  parseTaskIdentityKey,\r\n  taskIdentityKey,\r\n  type TaskSourceIdentity,\r\n} from \"./taskIdentity.ts\";",
+            "symbol": "import {\n  createTaskSourceIdentity,\n  parseTaskIdentityKey,\n  taskIdentityKey,\n  type TaskSourceIdentity,\n} from \"./taskIdentity.ts\";",
             "start_line": 14,
             "end_line": 19,
             "extractor": "tree-sitter-typescript",
-            "source_digest": "b1f34616f68c642f8ef345429b6136e93074f8ed0a208d1b3c7ce5b99acffc2c",
+            "source_digest": "201dbad550ba57ed72060eaaebf2a0fdd112041ba5af2805fcd25b192195c4d3",
             "kind": "import",
             "resolved_target": "src/taskIdentity.ts"
           }
@@ -15963,11 +15963,11 @@
         "locations": [
           {
             "path": "src/load.ts",
-            "symbol": "import type {\r\n  JsonObject,\r\n  StatusBarSettings,\r\n  TaskConfig,\r\n  TasksFile,\r\n} from \"./types.ts\";",
+            "symbol": "import type {\n  JsonObject,\n  StatusBarSettings,\n  TaskConfig,\n  TasksFile,\n} from \"./types.ts\";",
             "start_line": 20,
             "end_line": 25,
             "extractor": "tree-sitter-typescript",
-            "source_digest": "b1f34616f68c642f8ef345429b6136e93074f8ed0a208d1b3c7ce5b99acffc2c",
+            "source_digest": "201dbad550ba57ed72060eaaebf2a0fdd112041ba5af2805fcd25b192195c4d3",
             "kind": "import",
             "resolved_target": "src/types.ts"
           }
@@ -16654,10 +16654,10 @@
           {
             "path": "src/panel.ts",
             "symbol": "randomBytes(24)",
-            "start_line": 44,
-            "end_line": 44,
+            "start_line": 50,
+            "end_line": 50,
             "extractor": "tree-sitter-typescript",
-            "source_digest": "543b5b0d35baf931d1a06bd74bbadf3f420aed26669a58137c0cae1b738660d8",
+            "source_digest": "2d4a4e07cad59739f9483e2961a6b317dd15a6de86b3e7bb4e57cc551705d2b9",
             "kind": "call",
             "resolved_target": "external:javascript:node:crypto",
             "target_symbol": "randomBytes"
@@ -16681,7 +16681,7 @@
             "start_line": 1,
             "end_line": 1,
             "extractor": "tree-sitter-typescript",
-            "source_digest": "543b5b0d35baf931d1a06bd74bbadf3f420aed26669a58137c0cae1b738660d8",
+            "source_digest": "2d4a4e07cad59739f9483e2961a6b317dd15a6de86b3e7bb4e57cc551705d2b9",
             "kind": "import",
             "resolved_target": "external:javascript:node:crypto"
           }
@@ -16704,7 +16704,7 @@
             "start_line": 2,
             "end_line": 2,
             "extractor": "tree-sitter-typescript",
-            "source_digest": "543b5b0d35baf931d1a06bd74bbadf3f420aed26669a58137c0cae1b738660d8",
+            "source_digest": "2d4a4e07cad59739f9483e2961a6b317dd15a6de86b3e7bb4e57cc551705d2b9",
             "kind": "import",
             "resolved_target": "external:javascript:vscode"
           }
@@ -16727,7 +16727,7 @@
             "start_line": 3,
             "end_line": 3,
             "extractor": "tree-sitter-typescript",
-            "source_digest": "543b5b0d35baf931d1a06bd74bbadf3f420aed26669a58137c0cae1b738660d8",
+            "source_digest": "2d4a4e07cad59739f9483e2961a6b317dd15a6de86b3e7bb4e57cc551705d2b9",
             "kind": "import",
             "resolved_target": "src/codicons.ts"
           }
@@ -16747,10 +16747,10 @@
           {
             "path": "src/panel.ts",
             "symbol": "menuIconMarkup(id)",
-            "start_line": 141,
-            "end_line": 141,
+            "start_line": 147,
+            "end_line": 147,
             "extractor": "tree-sitter-typescript",
-            "source_digest": "543b5b0d35baf931d1a06bd74bbadf3f420aed26669a58137c0cae1b738660d8",
+            "source_digest": "2d4a4e07cad59739f9483e2961a6b317dd15a6de86b3e7bb4e57cc551705d2b9",
             "kind": "call",
             "resolved_target": "src/menuIconSvg.ts",
             "target_symbol": "menuIconMarkup"
@@ -16774,7 +16774,7 @@
             "start_line": 4,
             "end_line": 4,
             "extractor": "tree-sitter-typescript",
-            "source_digest": "543b5b0d35baf931d1a06bd74bbadf3f420aed26669a58137c0cae1b738660d8",
+            "source_digest": "2d4a4e07cad59739f9483e2961a6b317dd15a6de86b3e7bb4e57cc551705d2b9",
             "kind": "import",
             "resolved_target": "src/menuIconSvg.ts"
           }
@@ -16797,7 +16797,7 @@
             "start_line": 5,
             "end_line": 5,
             "extractor": "tree-sitter-typescript",
-            "source_digest": "543b5b0d35baf931d1a06bd74bbadf3f420aed26669a58137c0cae1b738660d8",
+            "source_digest": "2d4a4e07cad59739f9483e2961a6b317dd15a6de86b3e7bb4e57cc551705d2b9",
             "kind": "import",
             "resolved_target": "src/panelState.ts"
           }
@@ -20197,7 +20197,7 @@
     }
   ],
   "triggers": [],
-  "source_digest": "62cf27590cee658eb55c3b94b07464d23b700e5090e75bcfff9163260c668252",
+  "source_digest": "521ecee14da879acd091ab85c2f6c6d5c87271aaf85ed8c115a70c185c846f65",
   "changes": {
     "added_nodes": [],
     "removed_nodes": [],
@@ -20208,5 +20208,5 @@
     "changed": false,
     "changed_node_ids": []
   },
-  "generation_id": "140f3611311e1858f4360f0c811e2e3e21a3169f06a18e120eb380082f7611d7"
+  "generation_id": "cdd26fcb62256743626cb277b3df0c0fef561e0e481a6925a38fbfdbeda6f29d"
 }
